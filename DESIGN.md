@@ -1,4 +1,4 @@
-# Zirccle Website Design Specification
+# Zirccle Website Design Specificatio
 
 This document details the design system, architecture, and page structure implemented for the Zirccle pre-launch website. It aligns with the "Elegant Modernist" aesthetic established in the Stitch project "Zirccle".
 
