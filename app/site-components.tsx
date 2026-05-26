@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { FormEvent, useState } from "react";
 
@@ -9,6 +10,20 @@ const primaryLinks = [
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ];
+
+function BrandLogo() {
+  return (
+    <div className="flex items-center gap-3">
+      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[1.1rem] border border-outline-variant/35 bg-white/90 shadow-[0_12px_26px_rgba(89,17,98,0.08)] backdrop-blur-sm md:h-14 md:w-14">
+        <Image alt="Zirccle" className="h-10 w-10 object-contain md:h-11 md:w-11" height={56} priority src="/brand/zirccle-logo.png" width={56} />
+      </div>
+      <div className="hidden flex-col leading-none sm:flex">
+        <span className="text-label-sm font-semibold uppercase tracking-[0.3em] text-primary">Zirccle</span>
+        <span className="mt-1 text-[0.72rem] uppercase tracking-[0.24em] text-on-surface-variant">Wardrobe concierge</span>
+      </div>
+    </div>
+  );
+}
 
 export function WaitlistForm({ placement = "hero" }: { placement?: "hero" | "footer" | "cta" }) {
   const [email, setEmail] = useState("");
@@ -100,7 +115,7 @@ export function WaitlistForm({ placement = "hero" }: { placement?: "hero" | "foo
         {status === "success" && (
           <>
             <span className="material-symbols-outlined text-base">check_circle</span>
-            You're on the first-access list. Welcome!
+            You&apos;re on the first-access list. Welcome!
           </>
         )}
         {status === "error" && (
@@ -133,15 +148,7 @@ export function SiteHeader() {
     <header className="fixed left-0 top-0 z-50 w-full border-b border-white/40 bg-white/75 backdrop-blur-2xl">
       <div className="mx-auto flex h-20 max-w-container-max items-center justify-between px-margin-mobile md:px-margin-desktop">
         <Link className="flex items-center gap-2" href="/" aria-label="Zirccle home">
-          <span
-            className="material-symbols-outlined text-3xl text-primary"
-            style={{ fontVariationSettings: "'FILL' 1" }}
-          >
-            radio_button_checked
-          </span>
-          <span className="font-manrope text-[1rem] font-extrabold uppercase tracking-[0.36em] text-primary">
-            Zirccle
-          </span>
+          <BrandLogo />
         </Link>
 
         <nav className="hidden items-center gap-8 md:flex" aria-label="Primary navigation">
@@ -202,20 +209,12 @@ export function SiteHeader() {
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-outline-variant/40 bg-surface-container-low px-margin-mobile py-16 md:px-margin-desktop">
-      <div className="mx-auto max-w-container-max rounded-[2rem] border border-outline-variant/35 bg-white/80 p-8 shadow-[0_20px_60px_rgba(89,17,98,0.08)] backdrop-blur-xl md:p-12">
+    <footer className="border-t border-outline-variant/40 bg-surface-container-low px-margin-mobile py-10 md:py-16 md:px-margin-desktop">
+      <div className="mx-auto max-w-container-max rounded-[2rem] border border-outline-variant/35 bg-white/80 p-6 shadow-[0_20px_60px_rgba(89,17,98,0.08)] backdrop-blur-xl md:p-12">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1.2fr_0.8fr_0.8fr_1fr]">
           <div className="space-y-4">
             <div className="flex items-center gap-2">
-              <span
-                className="material-symbols-outlined text-3xl text-primary"
-                style={{ fontVariationSettings: "'FILL' 1" }}
-              >
-                radio_button_checked
-              </span>
-              <span className="font-manrope text-[1rem] font-extrabold uppercase tracking-[0.36em] text-primary">
-                Zirccle
-              </span>
+              <BrandLogo />
             </div>
             <p className="max-w-sm text-body-md leading-relaxed text-on-surface-variant">
               Intelligent style, curated from what you own. Discover your wardrobe in motion.
@@ -333,8 +332,8 @@ export function ScreenHero({
 }) {
   return (
     <section className="relative overflow-hidden bg-surface-container-low py-24 md:py-32">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(252,170,255,0.16),transparent_28%),radial-gradient(circle_at_80%_15%,rgba(115,44,123,0.08),transparent_30%),linear-gradient(180deg,rgba(255,255,255,0.35),rgba(246,243,242,0.9))]" />
-      <div className="absolute left-1/4 top-0 h-[340px] w-[340px] rounded-full bg-primary-fixed-dim/20 blur-[120px] pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(252,170,255,0.12),transparent_30%),linear-gradient(180deg,rgba(255,255,255,0.55),rgba(246,243,242,0.9))]" />
+      <div className="absolute left-1/4 top-0 h-[280px] w-[280px] rounded-full bg-primary-fixed-dim/14 blur-[110px] pointer-events-none" />
 
       <div className="relative z-10 mx-auto grid max-w-container-max grid-cols-1 items-center gap-12 px-margin-mobile md:px-margin-desktop lg:grid-cols-[0.95fr_1.05fr]">
         <div className="flex flex-col gap-6">
@@ -353,8 +352,22 @@ export function ScreenHero({
 
         {image && (
           <div className="flex justify-center lg:justify-end">
-            <div className="relative w-full max-w-[620px] rounded-[2.25rem] border border-outline-variant/35 bg-white/85 p-3 shadow-[0_30px_80px_rgba(89,17,98,0.12)] backdrop-blur-md">
-              <img className="h-full w-full rounded-[1.5rem] object-cover" src={image} alt={title} />
+            <div className="w-full max-w-[520px] space-y-4">
+              <div className="relative overflow-hidden rounded-[2.25rem] border border-outline-variant/35 bg-white/90 p-3 shadow-[0_24px_64px_rgba(89,17,98,0.12)] backdrop-blur-md">
+                <div className="relative w-full">
+                  <Image className="aspect-[9/18] w-full rounded-[1.5rem] object-cover" src={image} alt={title} width={540} height={1080} />
+                </div>
+              </div>
+              <div className="grid gap-3 sm:grid-cols-2">
+                <div className="rounded-[1.5rem] border border-outline-variant/35 bg-white/84 p-4 shadow-[0_14px_34px_rgba(89,17,98,0.08)] backdrop-blur-md">
+                  <p className="text-label-sm font-semibold uppercase tracking-[0.18em] text-primary">AI assisted</p>
+                  <p className="mt-2 text-body-md leading-relaxed text-on-surface-variant">Suggestions stay focused on what you own.</p>
+                </div>
+                <div className="rounded-[1.5rem] border border-outline-variant/35 bg-white/84 p-4 shadow-[0_14px_34px_rgba(89,17,98,0.08)] backdrop-blur-md">
+                  <p className="text-label-sm font-semibold uppercase tracking-[0.18em] text-primary">Calendar ready</p>
+                  <p className="mt-2 text-body-md leading-relaxed text-on-surface-variant">Outfits are framed around real plans.</p>
+                </div>
+              </div>
             </div>
           </div>
         )}

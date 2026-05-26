@@ -2,7 +2,9 @@ import { NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
 
-const waitlistFilePath = path.join(process.cwd(), "waitlist-emails.json");
+// Store waitlist data in a server-only directory that is gitignored (.data/)
+const dataDir = path.join(process.cwd(), ".data");
+const waitlistFilePath = path.join(dataDir, "waitlist-emails.json");
 
 export async function POST(request: Request) {
   try {
@@ -15,8 +17,13 @@ export async function POST(request: Request) {
       );
     }
 
+    // Ensure data directory exists (server-only)
+    if (!fs.existsSync(dataDir)) {
+      fs.mkdirSync(dataDir, { recursive: true });
+    }
+
     // Load existing emails
-    let emails = [];
+    let emails: any[] = [];
     if (fs.existsSync(waitlistFilePath)) {
       try {
         const fileContent = fs.readFileSync(waitlistFilePath, "utf8");
@@ -43,7 +50,7 @@ export async function POST(request: Request) {
       timestamp: new Date().toISOString(),
     });
 
-    // Save back to file
+    // Save back to file (server-only, gitignored)
     fs.writeFileSync(waitlistFilePath, JSON.stringify(emails, null, 2), "utf8");
 
     return NextResponse.json(

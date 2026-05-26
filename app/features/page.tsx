@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { images } from "../screen-data";
 import { FinalCta, SiteFooter, SiteHeader, ScreenHero } from "../site-components";
 
@@ -16,9 +17,9 @@ export default function FeaturesPage() {
       />
 
       <section className="py-section-gap" id="smart-wardrobe">
-        <div className="mx-auto grid max-w-container-max grid-cols-1 gap-8 px-margin-mobile md:px-margin-desktop lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+        <div className="mx-auto grid max-w-container-max grid-cols-1 gap-8 px-margin-mobile md:px-margin-desktop lg:grid-cols-[0.95fr_1.05fr] lg:items-stretch">
           <div className="rounded-[2rem] border border-outline-variant/35 bg-white/85 p-3 shadow-[0_22px_55px_rgba(89,17,98,0.08)] backdrop-blur-md">
-            <img className="aspect-[4/3] w-full rounded-[1.5rem] object-cover" src={images.scanner} alt="Digitizing wardrobe" />
+            <Image className="aspect-[4/3] w-full rounded-[1.5rem] object-cover" src={images.scanner} alt="Digitizing wardrobe" width={960} height={720} />
           </div>
           <div className="space-y-5">
             <span className="inline-flex items-center rounded-full bg-primary/10 px-4 py-2 text-label-sm font-semibold uppercase tracking-[0.22em] text-primary">Smart wardrobe</span>
@@ -51,7 +52,7 @@ export default function FeaturesPage() {
 
           <div className="grid gap-4 lg:grid-cols-[1.15fr_0.85fr]">
             <div className="relative overflow-hidden rounded-[2rem] border border-outline-variant/35 bg-white/85 p-3 shadow-[0_22px_55px_rgba(89,17,98,0.08)]">
-              <img className="aspect-[4/3] w-full rounded-[1.5rem] object-cover" src={images.cityStyle} alt="Style suggestion" />
+              <Image className="aspect-[4/3] w-full rounded-[1.5rem] object-cover" src={images.cityStyle} alt="Style suggestion" width={960} height={720} />
               <div className="absolute inset-x-8 bottom-8 max-w-sm rounded-[1.5rem] border border-white/35 bg-white/92 p-5 shadow-[0_16px_30px_rgba(89,17,98,0.12)] backdrop-blur-md">
                 <h3 className="text-body-lg font-semibold text-primary">Dynamic outfit generation</h3>
                 <p className="mt-2 text-body-md leading-relaxed text-on-surface-variant">Mix and match what you already own in ways you probably would not reach for alone.</p>
@@ -75,7 +76,7 @@ export default function FeaturesPage() {
       </section>
 
       <section className="py-section-gap" id="plan-confidence">
-        <div className="mx-auto grid max-w-container-max grid-cols-1 gap-8 px-margin-mobile md:px-margin-desktop lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+        <div className="mx-auto grid max-w-container-max grid-cols-1 gap-8 px-margin-mobile md:px-margin-desktop lg:grid-cols-[0.95fr_1.05fr] lg:items-stretch">
           <div className="space-y-5">
             <span className="inline-flex items-center rounded-full bg-primary/10 px-4 py-2 text-label-sm font-semibold uppercase tracking-[0.22em] text-primary">Plan with confidence</span>
             <h2 className="text-headline-md font-semibold text-primary">Map out your week before it starts.</h2>
@@ -93,7 +94,7 @@ export default function FeaturesPage() {
           </div>
 
           <div className="rounded-[2rem] border border-outline-variant/35 bg-white/85 p-3 shadow-[0_22px_55px_rgba(89,17,98,0.08)] backdrop-blur-md">
-            <img className="aspect-[4/3] w-full rounded-[1.5rem] object-cover" src={images.weatherLook} alt="Calendar planning view" />
+            <Image className="aspect-[4/3] w-full rounded-[1.5rem] object-cover" src={images.weatherLook} alt="Calendar planning view" width={960} height={720} />
           </div>
         </div>
       </section>

@@ -1,26 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import Image from "next/image";
 import { images } from "./screen-data";
 import { FinalCta, SiteFooter, SiteHeader, WaitlistForm } from "./site-components";
 
 export default function Home() {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({
-        x: (window.innerWidth / 2 - e.clientX) / 40,
-        y: (window.innerHeight / 2 - e.clientY) / 40,
-      });
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-    };
-  }, []);
-
   const benefits = [
     {
       icon: "checkroom",
@@ -83,8 +67,7 @@ export default function Home() {
       <SiteHeader />
 
       <section className="hero-gradient relative overflow-hidden pt-28 pb-20 md:pt-32 md:pb-28">
-        <div className="absolute inset-0 noise-overlay opacity-[0.35]" />
-        <div className="mx-auto grid max-w-container-max grid-cols-1 gap-14 px-margin-mobile md:px-margin-desktop lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+        <div className="mx-auto grid max-w-container-max grid-cols-1 gap-14 px-margin-mobile md:px-margin-desktop lg:grid-cols-[0.98fr_1.02fr] lg:items-stretch">
           <div className="relative z-10 flex flex-col gap-7">
             <span className="inline-flex w-fit items-center rounded-full border border-primary/10 bg-white/75 px-4 py-2 text-label-sm font-semibold uppercase tracking-[0.24em] text-primary shadow-sm backdrop-blur-md">
               The wardrobe concierge
@@ -116,28 +99,16 @@ export default function Home() {
           </div>
 
           <div className="relative z-10 flex justify-center lg:justify-end select-none">
-            <div className="relative h-[560px] w-full max-w-[620px]">
-              <div className="absolute left-0 top-16 w-[180px] md:w-[240px] transition-transform duration-300 ease-out" style={{ transform: `translate(${mousePosition.x * 0.35}px, ${mousePosition.y * 0.35}px) rotate(-10deg)` }}>
-                <div className="overflow-hidden rounded-[2.1rem] border-[6px] border-on-background/75 bg-white shadow-[0_24px_60px_rgba(28,27,27,0.18)] aspect-[9/19.5]">
-                  <img className="h-full w-full object-cover" src={images.cityStyle} alt="AI Style Suggestions Screen" />
-                </div>
+            <div className="w-full max-w-[540px] space-y-4">
+              <div className="overflow-hidden rounded-[2.5rem] border border-outline-variant/35 bg-white/90 p-3 shadow-[0_30px_80px_rgba(28,27,27,0.14)] backdrop-blur-md">
+                <Image className="aspect-[9/18] w-full rounded-[2rem] object-cover" src={images.wardrobeFlatlay} alt="Today's Picks Wardrobe Screen" width={540} height={1080} />
               </div>
 
-              <div className="absolute left-1/2 top-1/2 z-20 w-[220px] md:w-[300px] transition-transform duration-300 ease-out" style={{ transform: `translate(-50%, -50%) translate(${mousePosition.x * 0.8}px, ${mousePosition.y * 0.8}px)` }}>
-                <div className="overflow-hidden rounded-[2.5rem] border-[8px] border-on-background bg-white shadow-[0_30px_80px_rgba(28,27,27,0.22)] aspect-[9/19.5]">
-                  <img className="h-full w-full object-cover" src={images.wardrobeFlatlay} alt="Today's Picks Wardrobe Screen" />
-                </div>
-              </div>
-
-              <div className="absolute right-2 top-24 w-[170px] md:w-[230px] transition-transform duration-300 ease-out" style={{ transform: `translate(${mousePosition.x * 0.35}px, ${mousePosition.y * 0.35}px) rotate(12deg)` }}>
-                <div className="overflow-hidden rounded-[2rem] border-[6px] border-on-background/75 bg-white shadow-[0_24px_60px_rgba(28,27,27,0.18)] aspect-[9/19.5]">
-                  <img className="h-full w-full object-cover" src={images.weatherLook} alt="Outfit Planner Screen" />
-                </div>
-              </div>
-
-              <div className="absolute bottom-12 left-8 rounded-[1.75rem] border border-outline-variant/35 bg-white/82 px-4 py-3 shadow-[0_16px_36px_rgba(89,17,98,0.1)] backdrop-blur-md">
-                <div className="text-label-sm font-semibold uppercase tracking-[0.18em] text-primary">Adaptive preview</div>
-                <div className="mt-1 text-body-md text-on-surface-variant">Three screens, one seamless style loop.</div>
+              <div className="rounded-[1.75rem] border border-outline-variant/35 bg-white/82 p-5 shadow-[0_18px_40px_rgba(89,17,98,0.08)] backdrop-blur-md">
+                <p className="text-label-sm font-semibold uppercase tracking-[0.18em] text-primary">Adaptive preview</p>
+                <p className="mt-2 text-body-md leading-relaxed text-on-surface-variant">
+                  Three views collapsed into one calm daily flow. The screen stays focused on one task at a time.
+                </p>
               </div>
             </div>
           </div>

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { images } from "../screen-data";
 import { FinalCta, SiteFooter, SiteHeader } from "../site-components";
 
@@ -9,7 +10,7 @@ export default function WardrobeAppPage() {
       <SiteHeader />
 
       <section className="hero-gradient pt-28 pb-20 md:pt-32 md:pb-28">
-        <div className="mx-auto grid max-w-container-max grid-cols-1 gap-10 px-margin-mobile md:px-margin-desktop lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+        <div className="mx-auto grid max-w-container-max grid-cols-1 gap-10 px-margin-mobile md:px-margin-desktop lg:grid-cols-[0.95fr_1.05fr] lg:items-stretch">
           <div className="space-y-6">
             <span className="inline-flex w-fit items-center rounded-full border border-primary/10 bg-white/78 px-4 py-2 text-label-sm font-semibold uppercase tracking-[0.24em] text-primary shadow-sm backdrop-blur-md">
               The mobile app
@@ -36,7 +37,7 @@ export default function WardrobeAppPage() {
 
           <div className="relative flex justify-center lg:justify-end">
             <div className="relative w-full max-w-[380px] rounded-[2.5rem] border-[8px] border-on-background bg-white p-2 shadow-[0_28px_80px_rgba(28,27,27,0.2)]">
-              <img className="aspect-[9/19.5] w-full rounded-[2rem] object-cover" src={images.cityStyle} alt="Zirccle app homepage" />
+              <Image className="aspect-[9/19.5] w-full rounded-[2rem] object-cover" src={images.cityStyle} alt="Zirccle app homepage" width={380} height={820} />
             </div>
           </div>
         </div>
@@ -53,7 +54,7 @@ export default function WardrobeAppPage() {
               <span className="material-symbols-outlined text-4xl text-primary">{card.icon}</span>
               <h2 className="mt-4 text-headline-sm font-semibold text-primary">{card.title}</h2>
               <p className="mt-2 text-body-md leading-relaxed text-on-surface-variant">{card.text}</p>
-              <img className="mt-5 aspect-[4/3] w-full rounded-[1.25rem] object-cover" src={card.image} alt={card.title} />
+              <Image className="mt-5 aspect-[4/3] w-full rounded-[1.25rem] object-cover" src={card.image} alt={card.title} width={560} height={420} />
             </div>
           ))}
         </div>

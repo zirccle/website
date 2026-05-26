@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { images } from "../screen-data";
 import { FinalCta, SiteFooter, SiteHeader, WaitlistForm } from "../site-components";
 
@@ -9,7 +10,7 @@ export default function HowItWorksPage() {
       <SiteHeader />
 
       <section className="hero-gradient pt-28 pb-20 md:pt-32 md:pb-28">
-        <div className="mx-auto grid max-w-container-max grid-cols-1 gap-12 px-margin-mobile md:px-margin-desktop lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+        <div className="mx-auto grid max-w-container-max grid-cols-1 gap-12 px-margin-mobile md:px-margin-desktop lg:grid-cols-[0.95fr_1.05fr] lg:items-stretch">
           <div className="space-y-6">
             <span className="inline-flex w-fit items-center rounded-full border border-primary/10 bg-white/78 px-4 py-2 text-label-sm font-semibold uppercase tracking-[0.24em] text-primary shadow-sm backdrop-blur-md">
               The journey
@@ -25,7 +26,7 @@ export default function HowItWorksPage() {
 
           <div className="relative">
             <div className="rounded-[2.25rem] border border-outline-variant/35 bg-white/85 p-3 shadow-[0_28px_80px_rgba(89,17,98,0.12)] backdrop-blur-md">
-              <img className="aspect-[1] w-full rounded-[1.5rem] object-cover" src={images.journeyHero} alt="Aesthetic luxury outfit flatlay" />
+              <Image className="aspect-[1] w-full rounded-[1.5rem] object-cover" src={images.journeyHero} alt="Aesthetic luxury outfit flatlay" width={900} height={900} />
             </div>
             <div className="absolute -bottom-6 left-6 max-w-sm rounded-[1.5rem] border border-outline-variant/35 bg-white/90 p-5 shadow-[0_18px_36px_rgba(89,17,98,0.12)] backdrop-blur-md">
               <span className="material-symbols-outlined text-3xl text-primary" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</span>
@@ -56,12 +57,12 @@ export default function HowItWorksPage() {
                   <p className="max-w-xl text-body-lg leading-relaxed text-on-surface-variant">{step.text}</p>
                 </div>
                 <div className="rounded-[1.5rem] border border-outline-variant/30 bg-white/85 p-3">
-                  <img className="aspect-[4/3] w-full rounded-[1.2rem] object-cover" src={step.image} alt={step.title} />
+                  <Image className="aspect-[4/3] w-full rounded-[1.2rem] object-cover" src={step.image} alt={step.title} width={720} height={540} />
                 </div>
               </div>
             ))}
 
-            <div className="grid gap-6 rounded-[2rem] border border-primary/10 bg-primary p-8 text-white shadow-[0_24px_60px_rgba(89,17,98,0.18)] lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+            <div className="grid gap-6 rounded-[2rem] border border-primary/10 bg-primary p-8 text-white shadow-[0_24px_60px_rgba(89,17,98,0.18)] lg:grid-cols-[1.05fr_0.95fr] lg:items-stretch">
               <div>
                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white text-primary text-label-sm font-semibold">5</div>
                 <h3 className="mt-4 text-headline-md font-semibold text-white">Feel amazing every day</h3>
@@ -73,7 +74,7 @@ export default function HowItWorksPage() {
                 </div>
               </div>
               <div className="rounded-[1.5rem] border border-white/10 bg-white/10 p-3 backdrop-blur-md">
-                <img className="aspect-[4/3] w-full rounded-[1.2rem] object-cover" src={images.closet} alt="Confident lifestyle photography" />
+                <Image className="aspect-[4/3] w-full rounded-[1.2rem] object-cover" src={images.closet} alt="Confident lifestyle photography" width={720} height={540} />
               </div>
             </div>
           </div>
