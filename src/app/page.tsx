@@ -1,369 +1,212 @@
 "use client";
 
-import Image from "next/image";
-import { FormEvent, useState } from "react";
-
-const benefits = [
-  {
-    icon: "▣",
-    title: "Smart wardrobe",
-    text: "Digitize your closet with AI-powered organization.",
-  },
-  {
-    icon: "✦",
-    title: "AI style suggestions",
-    text: "Get personalized outfits from what you own.",
-  },
-  {
-    icon: "□",
-    title: "Plan with confidence",
-    text: "Plan your looks ahead for any occasion.",
-  },
-];
-
-const features = [
-  {
-    title: "Smart Wardrobe",
-    text: "Snap a photo of your clothes, and Zirccle helps remove backgrounds, categorize items, and tag them by color, season, and occasion.",
-    points: ["One-tap digitization", "Smart inventory memory"],
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuCDcE8CUIjPSIBO5200i__n40RvRYG0mo-LXBqZCnDJwGBf_Q34CNmqPczYz6b5Ncb_9QOp9pobQJdLvHZ9hBa32oD8lq2-FgxiR78IqE7h9dAegLtsFVjaEfZJYrf7aZIyGGdm-6Rmx38LHORMe0ixiuQe7P9N7Skm_iALTtoD4DWYOx1MFjqNK7l603KfRhAaW30I891iixlNpjgaHO5LMXlKPg1AjWrxeKMTZiDbGe1hycEBKu0JgV_VOq3_ByIiyD4IcZZ5A8ft",
-  },
-  {
-    title: "AI Style Suggestions",
-    text: "Your personal stylist, available whenever you need it. Get recommendations shaped by your taste, schedule, and the pieces already in your closet.",
-    points: ["Dynamic outfit generation", "Personal taste learning"],
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuCExLfXy2y6Cn1cHK1cM4rLJF5CfhFv1mqRi7YfyvaE5-Rqkay-cVAHre8MC33CXELjqxm8EvXyHJBpfiXiUNSdAsx0JK0a8wcGytU46jRuJkDgLtLczRXCk1oVnXGlUIT-t8-DbAZQSCOBS7w0I_gHsCSgizSXEd4GMOy387Zaa2f_ZDCoTqVF6rWr1SMzMaXqSojmVxAMIBZtqQtXhsYgxYz8PjoOFhVzK2mqy9lhe3NcMWa63QIi_yDoeK7pZc2pe7CsYOaJ8B4s",
-  },
-  {
-    title: "Look Planning",
-    text: "Save looks, plan your week, and know what to wear before your day starts.",
-    points: ["Calendar-ready outfits", "Reusable favorites"],
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuBfcuhEh_z3saufbNUKzTuNdXo9OPNU94YmH9VJxEVpVd3JxXiXhrPSCRo4hhN4h2oQ5OudBJCTGWxcQSPzSRxBii2K-RYTRJr0tbEVR9RUDF9IC8CJAqQ4iruDvz2WRq5PD_11FXBRp_f8nw5UPhCkfuguaqpmN13DZNqTZPhmN0X1AfZJ6I4oCNooNJ2pcBi-c-ijtn8OIbQuJi5hcJsGLNxoBCzWzr_YQyHh2Y_ruCM2t0XqUyCIHPX1Z9e_3mnFvXgoCrZPW1xK",
-  },
-];
-
-const steps = [
-  {
-    number: "1",
-    title: "Add your wardrobe",
-    text: "Photograph clothes, shoes, and accessories so your closet becomes a searchable digital wardrobe.",
-  },
-  {
-    number: "2",
-    title: "Get AI suggestions",
-    text: "Zirccle combines your pieces into looks based on taste, weather, and occasion.",
-  },
-  {
-    number: "3",
-    title: "Save your looks",
-    text: "Build a lookbook for work, weekends, travel, and special plans.",
-  },
-  {
-    number: "4",
-    title: "Plan ahead",
-    text: "Connect outfits to your week and reduce the daily decision fatigue of getting dressed.",
-  },
-];
-
-const faqs = [
-  ["When will Zirccle launch?", "First-access members will receive private beta invites before the public release."],
-  ["Do I need to upload my whole closet?", "No. You can start with favorite pieces and expand your wardrobe over time."],
-  ["Is Zirccle only for fashion experts?", "No. It is designed for anyone who wants more confidence from clothes they already own."],
-];
-
-function WaitlistForm({ placement = "hero" }: { placement?: "hero" | "footer" }) {
-  const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">(
-    "idle",
-  );
-  const id = `${placement}-email`;
-
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setStatus("loading");
-
-    const endpoint = process.env.NEXT_PUBLIC_WAITLIST_ENDPOINT;
-
-    try {
-      if (endpoint) {
-        const response = await fetch(endpoint, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, source: "zirccle-landing" }),
-        });
-
-        if (!response.ok) {
-          throw new Error("Waitlist request failed");
-        }
-      }
-
-      setStatus("success");
-      setEmail("");
-    } catch {
-      setStatus("error");
-    }
-  }
-
-  return (
-    <form className="waitlistForm" onSubmit={handleSubmit}>
-      <label htmlFor={id}>Email address</label>
-      <div className="waitlistField">
-        <span aria-hidden="true">✉</span>
-        <input
-          id={id}
-          name="email"
-          type="email"
-          required
-          placeholder="Enter your email address"
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
-        />
-        <button type="submit" disabled={status === "loading"}>
-          {status === "loading" ? "Joining..." : "Get first access"}
-        </button>
-      </div>
-      <p className={`formMessage ${status}`}>
-        {status === "success" && "You're on the first-access list."}
-        {status === "error" && "Something went wrong. Please try again."}
-        {status === "idle" && "No spam. Just early access updates."}
-        {status === "loading" && "Saving your spot..."}
-      </p>
-    </form>
-  );
-}
-
-function AppPreview() {
-  return (
-    <div className="previewCluster" aria-label="Zirccle app preview">
-      <div className="stylePhoto photoOne">
-        <img
-          src="https://lh3.googleusercontent.com/aida-public/AB6AXuDK6snmMMPXr6fBH3YFNXZ0Pr7uD9nZD2vLT3IYa7NfUtTJ4xmkIDsNqajhAPTVPUuKp8KkpP8oN1M1Mo9J4YiHbvGGnW3ttpcENALGP5M5Gphg9gKn6yCgioNkYbClCWPYtcQX0G2LTLviRF5RYEdlijO3COzEqmd8mlNoeO1snI-0vWdLRl0p3nLNDnacNneoW0fBmILjFCdZqCiReSuJuoGjoX2k-kmH_N1RZLma5YQ1BYaJt7lIEAGq336doVqRz2GhwZ_tmjwj"
-          alt=""
-        />
-      </div>
-      <div className="phone sidePhone leftPhone">
-        <div className="notch" />
-        <div className="miniScreen">
-          <strong>Business lunch</strong>
-          <div className="outfitImage" />
-          <p>Silk blouse + tapered trouser</p>
-        </div>
-      </div>
-      <div className="phone mainPhone">
-        <div className="notch" />
-        <div className="appHeader">
-          <span>Choose your style</span>
-          <b>Today</b>
-        </div>
-        <div className="lookGrid">
-          <img
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfcuhEh_z3saufbNUKzTuNdXo9OPNU94YmH9VJxEVpVd3JxXiXhrPSCRo4hhN4h2oQ5OudBJCTGWxcQSPzSRxBii2K-RYTRJr0tbEVR9RUDF9IC8CJAqQ4iruDvz2WRq5PD_11FXBRp_f8nw5UPhCkfuguaqpmN13DZNqTZPhmN0X1AfZJ6I4oCNooNJ2pcBi-c-ijtn8OIbQuJi5hcJsGLNxoBCzWzr_YQyHh2Y_ruCM2t0XqUyCIHPX1Z9e_3mnFvXgoCrZPW1xK"
-            alt=""
-          />
-          <img
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCy2mpdwbQmlCsApiOdC80vH3L8vjfvMAoeZehixK42gp1cxyDwqkFAsV2R3ajqyHfGI_vPE4DjCku6LXiageidTMEAGiAlSk2LBoAvkAPXOk7ju9Kn-TXJT6C_ldVsMDB9CUi3qRbbPVpIqXtks5dtXMnbkO9CN9gy06u5dYME7TvJt3HyMsLJHpnIRoeQ27uWOUSU6GKcaWNdu6C43i8ozH45_L8dWHh61iJZudp2KYjjDH_kHUUs8DntavVI_COXSu4m5RBAXHSu"
-            alt=""
-          />
-        </div>
-        <div className="categoryGrid">
-          {["Tops", "Bottoms", "Shoes", "Bags", "Dresses", "Outerwear"].map((item) => (
-            <span key={item}>{item}</span>
-          ))}
-        </div>
-        <div className="bottomTabs">
-          <span />
-          <span />
-          <span />
-        </div>
-      </div>
-      <div className="phone sidePhone rightPhone">
-        <div className="notch" />
-        <div className="miniScreen">
-          <strong>Wardrobe</strong>
-          <div className="closetRows">
-            <span />
-            <span />
-            <span />
-          </div>
-          <p>32 pieces ready</p>
-        </div>
-      </div>
-      <div className="stylePhoto photoTwo">
-        <img
-          src="https://lh3.googleusercontent.com/aida-public/AB6AXuCExLfXy2y6Cn1cHK1cM4rLJF5CfhFv1mqRi7YfyvaE5-Rqkay-cVAHre8MC33CXELjqxm8EvXyHJBpfiXiUNSdAsx0JK0a8wcGytU46jRuJkDgLtLczRXCk1oVnXGlUIT-t8-DbAZQSCOBS7w0I_gHsCSgizSXEd4GMOy387Zaa2f_ZDCoTqVF6rWr1SMzMaXqSojmVxAMIBZtqQtXhsYgxYz8PjoOFhVzK2mqy9lhe3NcMWa63QIi_yDoeK7pZc2pe7CsYOaJ8B4s"
-          alt=""
-        />
-      </div>
-    </div>
-  );
-}
+import { useEffect, useState } from "react";
+import { images } from "./screen-data";
+import { FinalCta, SiteFooter, SiteHeader, WaitlistForm } from "./site-components";
 
 export default function Home() {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({
+        x: (window.innerWidth / 2 - e.clientX) / 40,
+        y: (window.innerHeight / 2 - e.clientY) / 40,
+      });
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+    };
+  }, []);
+
+  const benefits = [
+    {
+      icon: "checkroom",
+      title: "Smart wardrobe",
+      text: "Digitize your closet and keep everything organized, always. Snap photos and let AI categorize everything.",
+    },
+    {
+      icon: "auto_awesome",
+      title: "AI style suggestions",
+      text: "Get personalized outfit ideas that match your style and mood. Your personal digital stylist, available 24/7.",
+    },
+    {
+      icon: "calendar_today",
+      title: "Plan with confidence",
+      text: "Plan your looks ahead for any occasion, any day. Synchronize your outfits with your schedule effortlessly.",
+    },
+  ];
+
+  const steps = [
+    {
+      icon: "smartphone",
+      number: "1",
+      title: "Add your wardrobe",
+      text: "Snap photos and build your digital closet.",
+    },
+    {
+      icon: "colors_spark",
+      number: "2",
+      title: "Get AI suggestions",
+      text: "Receive outfit ideas made just for you.",
+    },
+    {
+      icon: "apparel",
+      number: "3",
+      title: "Save your looks",
+      text: "Save and favorite the looks you love.",
+    },
+    {
+      icon: "event",
+      number: "4",
+      title: "Plan ahead",
+      text: "Plan outfits for your days with ease.",
+    },
+    {
+      icon: "favorite",
+      number: "5",
+      title: "Feel amazing",
+      text: "Wear what fits you. Every day.",
+    },
+  ];
+
+  const highlights = [
+    { value: "01", label: "Private beta invite" },
+    { value: "24/7", label: "AI styling support" },
+    { value: "100%", label: "Your wardrobe, organized" },
+  ];
+
   return (
-    <main>
-      <header className="siteHeader">
-        <a className="brand" href="#top" aria-label="Zirccle home">
-          <Image src="/brand/zirccle-logo.png" alt="" width={34} height={34} priority />
-          <span>ZIRCCLE</span>
-        </a>
-          <nav aria-label="Primary navigation">
-          <a href="/features">Features</a>
-          <a href="/how-it-works">How it works</a>
-          <a href="/features#why-zirccle">Why Zirccle</a>
-          <a href="/about">About</a>
-          <a href="/features#faq">FAQ</a>
-        </nav>
-        <a className="headerCta" href="/contact">
-          Get first access
-        </a>
-      </header>
+    <main className="min-h-screen bg-background">
+      <SiteHeader />
 
-      <section className="heroSection" id="top">
-        <div className="heroCopy">
-          <h1>Your wardrobe, in motion</h1>
-          <p>
-            Discover outfits you love, organize what you own, and get AI-powered
-            style ideas that fit you.
-          </p>
-          <WaitlistForm />
-        </div>
-        <AppPreview />
-      </section>
+      <section className="hero-gradient relative overflow-hidden pt-28 pb-20 md:pt-32 md:pb-28">
+        <div className="absolute inset-0 noise-overlay opacity-[0.35]" />
+        <div className="mx-auto grid max-w-container-max grid-cols-1 gap-14 px-margin-mobile md:px-margin-desktop lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+          <div className="relative z-10 flex flex-col gap-7">
+            <span className="inline-flex w-fit items-center rounded-full border border-primary/10 bg-white/75 px-4 py-2 text-label-sm font-semibold uppercase tracking-[0.24em] text-primary shadow-sm backdrop-blur-md">
+              The wardrobe concierge
+            </span>
+            <h1 className="max-w-xl text-display-lg-mobile font-semibold leading-[1.02] tracking-tight text-primary md:text-display-lg">
+              Your wardrobe, in motion.
+            </h1>
+            <p className="max-w-xl text-body-lg leading-relaxed text-on-surface-variant">
+              Zirccle turns what you already own into a calmer daily routine: organized outfits, tailored AI styling, and planning that actually feels elegant.
+            </p>
 
-      <section className="benefitStrip" aria-label="Zirccle benefits">
-        {benefits.map((benefit) => (
-          <article key={benefit.title}>
-            <span aria-hidden="true">{benefit.icon}</span>
-            <div>
-              <h2>{benefit.title}</h2>
-              <p>{benefit.text}</p>
+            <div className="grid max-w-xl gap-4 sm:grid-cols-3">
+              {highlights.map((item) => (
+                <div
+                  key={item.label}
+                  className="rounded-[1.5rem] border border-outline-variant/35 bg-white/82 p-4 shadow-[0_14px_30px_rgba(89,17,98,0.08)] backdrop-blur-md"
+                >
+                  <div className="text-3xl font-semibold text-primary">{item.value}</div>
+                  <p className="mt-2 text-label-sm uppercase tracking-[0.16em] text-on-surface-variant">
+                    {item.label}
+                  </p>
+                </div>
+              ))}
             </div>
-          </article>
-        ))}
-      </section>
 
-      <section className="featureSection" id="features">
-        <div className="sectionIntro">
-          <span>Platform Features</span>
-          <h2>Every tool you need to master your wardrobe.</h2>
-          <p>
-            Zirccle combines advanced AI with intuitive design to help you digitize,
-            organize, and plan your style effortlessly.
-          </p>
-        </div>
-        <div className="featureStack">
-          {features.map((feature, index) => (
-            <article className="featurePanel" key={feature.title}>
-              <div className="featureImage">
-                <img src={feature.image} alt="" />
+            <div className="max-w-xl">
+              <WaitlistForm placement="hero" />
+            </div>
+          </div>
+
+          <div className="relative z-10 flex justify-center lg:justify-end select-none">
+            <div className="relative h-[560px] w-full max-w-[620px]">
+              <div className="absolute left-0 top-16 w-[180px] md:w-[240px] transition-transform duration-300 ease-out" style={{ transform: `translate(${mousePosition.x * 0.35}px, ${mousePosition.y * 0.35}px) rotate(-10deg)` }}>
+                <div className="overflow-hidden rounded-[2.1rem] border-[6px] border-on-background/75 bg-white shadow-[0_24px_60px_rgba(28,27,27,0.18)] aspect-[9/19.5]">
+                  <img className="h-full w-full object-cover" src={images.cityStyle} alt="AI Style Suggestions Screen" />
+                </div>
               </div>
-              <div className="featureCopy">
-                <span>{String(index + 1).padStart(2, "0")}</span>
-                <h3>{feature.title}</h3>
-                <p>{feature.text}</p>
-                <ul>
-                  {feature.points.map((point) => (
-                    <li key={point}>{point}</li>
-                  ))}
-                </ul>
+
+              <div className="absolute left-1/2 top-1/2 z-20 w-[220px] md:w-[300px] transition-transform duration-300 ease-out" style={{ transform: `translate(-50%, -50%) translate(${mousePosition.x * 0.8}px, ${mousePosition.y * 0.8}px)` }}>
+                <div className="overflow-hidden rounded-[2.5rem] border-[8px] border-on-background bg-white shadow-[0_30px_80px_rgba(28,27,27,0.22)] aspect-[9/19.5]">
+                  <img className="h-full w-full object-cover" src={images.wardrobeFlatlay} alt="Today's Picks Wardrobe Screen" />
+                </div>
               </div>
-            </article>
-          ))}
+
+              <div className="absolute right-2 top-24 w-[170px] md:w-[230px] transition-transform duration-300 ease-out" style={{ transform: `translate(${mousePosition.x * 0.35}px, ${mousePosition.y * 0.35}px) rotate(12deg)` }}>
+                <div className="overflow-hidden rounded-[2rem] border-[6px] border-on-background/75 bg-white shadow-[0_24px_60px_rgba(28,27,27,0.18)] aspect-[9/19.5]">
+                  <img className="h-full w-full object-cover" src={images.weatherLook} alt="Outfit Planner Screen" />
+                </div>
+              </div>
+
+              <div className="absolute bottom-12 left-8 rounded-[1.75rem] border border-outline-variant/35 bg-white/82 px-4 py-3 shadow-[0_16px_36px_rgba(89,17,98,0.1)] backdrop-blur-md">
+                <div className="text-label-sm font-semibold uppercase tracking-[0.18em] text-primary">Adaptive preview</div>
+                <div className="mt-1 text-body-md text-on-surface-variant">Three screens, one seamless style loop.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="mx-auto mt-16 max-w-container-max px-margin-mobile md:px-margin-desktop">
+          <div className="grid gap-4 md:grid-cols-3">
+            {benefits.map((benefit) => (
+              <div key={benefit.title} className="rounded-[1.75rem] border border-outline-variant/35 bg-white/82 p-6 shadow-[0_18px_40px_rgba(89,17,98,0.08)] backdrop-blur-md">
+                <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+                  <span className="material-symbols-outlined text-3xl">{benefit.icon}</span>
+                </div>
+                <h2 className="text-headline-sm font-semibold text-on-surface">{benefit.title}</h2>
+                <p className="mt-3 text-body-md leading-relaxed text-on-surface-variant">{benefit.text}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      <section className="stepsSection" id="how-it-works">
-        <div className="sectionIntro compact">
-          <span>The Journey</span>
-          <h2>Your style journey, simplified</h2>
-        </div>
-        <div className="stepsGrid">
-          {steps.map((step) => (
-            <article className="stepCard" key={step.number}>
-              <span>{step.number}</span>
-              <h3>{step.title}</h3>
-              <p>{step.text}</p>
-            </article>
-          ))}
+      <section className="relative overflow-hidden py-section-gap">
+        <div className="absolute left-1/2 top-8 h-[360px] w-[900px] -translate-x-1/2 rounded-full bg-primary/5 blur-[120px]" />
+        <div className="mx-auto max-w-container-max px-margin-mobile md:px-margin-desktop">
+          <div className="mb-16 flex flex-col gap-4 text-center">
+            <span className="mx-auto inline-flex w-fit items-center rounded-full bg-primary/10 px-4 py-2 text-label-sm font-semibold uppercase tracking-[0.22em] text-primary">
+              The experience
+            </span>
+            <h2 className="text-display-lg-mobile font-semibold tracking-tight text-primary md:text-headline-md">
+              Your style journey, simplified.
+            </h2>
+            <p className="mx-auto max-w-2xl text-body-lg leading-relaxed text-on-surface-variant">
+              Zirccle collapses the clutter of wardrobe memory, styling choices, and planning into one clear routine.
+            </p>
+          </div>
+
+          <div className="grid gap-4 lg:grid-cols-5">
+            {steps.map((step, index) => (
+              <div
+                key={step.number}
+                className={`rounded-[1.75rem] border p-6 shadow-[0_18px_40px_rgba(89,17,98,0.08)] backdrop-blur-md ${
+                  index === 2
+                    ? "border-primary/20 bg-primary text-on-primary lg:col-span-2"
+                    : "border-outline-variant/35 bg-white/85"
+                }`}
+              >
+                <div className="flex items-start gap-4">
+                  <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full ${index === 2 ? "bg-white text-primary" : "bg-primary/10 text-primary"}`}>
+                    <span className="material-symbols-outlined text-[24px]" style={{ fontVariationSettings: "'wght' 500" }}>
+                      {step.icon}
+                    </span>
+                  </div>
+                  <div>
+                    <div className={`text-label-sm font-semibold uppercase tracking-[0.18em] ${index === 2 ? "text-primary-fixed-dim" : "text-primary"}`}>
+                      {step.number}. {step.title}
+                    </div>
+                    <p className={`mt-3 text-body-md leading-relaxed ${index === 2 ? "text-primary-fixed/85" : "text-on-surface-variant"}`}>
+                      {step.text}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      <section className="whySection" id="why-zirccle">
-        <div>
-          <h2>Why Zirccle</h2>
-          <p>
-            Because a full closet should make getting dressed easier. Zirccle
-            reconnects you with what you own, helps you repeat favorites without
-            boredom, and keeps your style organized in one mobile flow.
-          </p>
-        </div>
-        <div className="whyMetrics">
-          <article>
-            <strong>Less</strong>
-            <span>decision fatigue</span>
-          </article>
-          <article>
-            <strong>More</strong>
-            <span>use from your closet</span>
-          </article>
-          <article>
-            <strong>Better</strong>
-            <span>daily outfit confidence</span>
-          </article>
-        </div>
-      </section>
+      <FinalCta />
 
-      <section className="aboutSection" id="about">
-        <div className="aboutImage">
-          <img
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDK6snmMMPXr6fBH3YFNXZ0Pr7uD9nZD2vLT3IYa7NfUtTJ4xmkIDsNqajhAPTVPUuKp8KkpP8oN1M1Mo9J4YiHbvGGnW3ttpcENALGP5M5Gphg9gKn6yCgioNkYbClCWPYtcQX0G2LTLviRF5RYEdlijO3COzEqmd8mlNoeO1snI-0vWdLRl0p3nLNDnacNneoW0fBmILjFCdZqCiReSuJuoGjoX2k-kmH_N1RZLma5YQ1BYaJt7lIEAGq336doVqRz2GhwZ_tmjwj"
-            alt=""
-          />
-        </div>
-        <div>
-          <span>Our Story</span>
-          <h2>Modern style, intelligently reimagined.</h2>
-          <p>
-            We started with a simple question: why is it so hard to choose what to
-            wear when our closets are full? Zirccle bridges physical wardrobes and
-            digital life, turning getting dressed into a calmer daily ritual.
-          </p>
-        </div>
-      </section>
-
-      <section className="faqSection" id="faq">
-        <div className="sectionIntro compact">
-          <h2>FAQ</h2>
-        </div>
-        <div className="faqList">
-          {faqs.map(([question, answer]) => (
-            <details key={question}>
-              <summary>{question}</summary>
-              <p>{answer}</p>
-            </details>
-          ))}
-        </div>
-      </section>
-
-      <section className="signupSection" id="signup">
-        <div>
-          <h2>Be first in the Zirccle circle</h2>
-          <p>Join first access and help shape the private beta.</p>
-        </div>
-        <WaitlistForm placement="footer" />
-      </section>
-
-      <footer className="siteFooter">
-        <span>ZIRCCLE</span>
-        <div>
-          <a href="/features">Features</a>
-          <a href="/how-it-works">How it works</a>
-          <a href="/contact">First access</a>
-        </div>
-      </footer>
+      <SiteFooter />
     </main>
   );
 }
