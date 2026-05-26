@@ -1,0 +1,113 @@
+@import "tailwindcss";
+@config "../tailwind.config.ts";
+
+@layer base {
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+    background: #fcf9f8;
+  }
+
+  ::selection {
+    background: rgba(89, 17, 98, 0.15);
+    color: #1c1b1b;
+  }
+
+  body {
+    @apply bg-background text-on-surface antialiased overflow-x-hidden font-manrope;
+    min-height: 100dvh;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    background-image:
+      radial-gradient(circle at 12% 10%, rgba(252, 170, 255, 0.14), transparent 28%),
+      radial-gradient(circle at 82% 4%, rgba(115, 44, 123, 0.08), transparent 24%),
+      linear-gradient(180deg, #fffdfa 0%, #f7f3f4 58%, #f4f0ef 100%);
+  }
+
+  /* Avoid fixed background on touch devices — enable fixed only on large screens */
+  @media (min-width: 1024px) {
+    body {
+      background-attachment: fixed;
+    }
+  }
+
+  main {
+    isolation: isolate;
+  }
+}
+
+:root {
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.hero-gradient {
+  background:
+    radial-gradient(circle at 18% 20%, rgba(252, 170, 255, 0.14) 0%, rgba(252, 249, 248, 0) 34%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.72) 0%, rgba(246, 243, 242, 0.92) 100%);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.glass-nav {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.editorial-shadow {
+  box-shadow: 0 4px 18px rgba(115, 44, 123, 0.05);
+}
+
+.editorial-shadow-strong {
+  box-shadow: 0 22px 56px rgba(89, 17, 98, 0.12);
+}
+
+/* Reduce heavy blurs and shadows on small screens for performance */
+@media (max-width: 767px) {
+  .glass-nav {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .glass-card {
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+
+  .editorial-shadow-strong {
+    box-shadow: 0 10px 24px rgba(89, 17, 98, 0.08);
+  }
+
+  .editorial-shadow {
+    box-shadow: 0 2px 8px rgba(115, 44, 123, 0.03);
+  }
+}
+
+.noise-overlay {
+  background-image: radial-gradient(rgba(89, 17, 98, 0.06) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+
+a,
+button,
+input,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}

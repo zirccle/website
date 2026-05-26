@@ -50,7 +50,7 @@ const sections = [
   },
   {
     title: "Contact Us",
-    content: "If you have any questions about this privacy policy or our privacy practices, please contact our data privacy manager at hello@zirccle.com."
+    content: "If you have any questions about this privacy policy or our privacy practices, please contact our data privacy manager at admin@zirccle.com."
   }
 ];
 
@@ -60,8 +60,8 @@ export default function PrivacyPolicyPage() {
       <SiteHeader />
 
       <section className="hero-gradient pt-28 pb-20 md:pt-32 md:pb-28">
-        <div className="mx-auto grid max-w-container-max grid-cols-1 gap-8 px-margin-mobile md:px-margin-desktop lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-          <div className="space-y-6">
+        <div className="mx-auto grid max-w-container-max grid-cols-1 gap-8 px-margin-mobile md:px-margin-desktop lg:grid-cols-[0.9fr_1.1fr] lg:items-stretch">
+          <div className="space-y-6 flex flex-col justify-between h-full">
             <span className="inline-flex w-fit items-center rounded-full border border-primary/10 bg-white/78 px-4 py-2 text-label-sm font-semibold uppercase tracking-[0.24em] text-primary shadow-sm backdrop-blur-md">
               Legal
             </span>
@@ -78,12 +78,12 @@ export default function PrivacyPolicyPage() {
               </div>
               <div className="rounded-[1.5rem] border border-outline-variant/35 bg-white/85 p-5 shadow-[0_18px_40px_rgba(89,17,98,0.08)]">
                 <div className="text-label-sm font-semibold uppercase tracking-[0.18em] text-primary">Scope</div>
-                <p className="mt-2 text-body-lg text-on-surface-variant">Website, waitlist, and contact forms.</p>
+                <p className="mt-2 text-body-lg text-on-surface-variant">Website and waitlist submissions.</p>
               </div>
             </div>
           </div>
 
-          <article className="rounded-[2rem] border border-outline-variant/35 bg-white/88 p-6 shadow-[0_22px_55px_rgba(89,17,98,0.08)] backdrop-blur-md md:p-10">
+          <article className="rounded-[2rem] border border-outline-variant/35 bg-white/88 p-6 shadow-[0_22px_55px_rgba(89,17,98,0.08)] backdrop-blur-md md:p-10 min-h-full">
             <div className="space-y-10">
               {sections.map((sec, idx) => (
                 <section key={idx} className="space-y-4">

@@ -90,7 +90,7 @@ export default function TermsOfServicePage() {
       <SiteHeader />
 
       <section className="hero-gradient pt-28 pb-20 md:pt-32 md:pb-28">
-        <div className="mx-auto grid max-w-container-max grid-cols-1 gap-8 px-margin-mobile md:px-margin-desktop lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
+        <div className="mx-auto grid max-w-container-max grid-cols-1 gap-8 px-margin-mobile md:px-margin-desktop lg:grid-cols-[0.85fr_1.15fr] lg:items-stretch">
           <div className="space-y-6">
             <span className="inline-flex w-fit items-center rounded-full border border-primary/10 bg-white/78 px-4 py-2 text-label-sm font-semibold uppercase tracking-[0.24em] text-primary shadow-sm backdrop-blur-md">
               Agreement
@@ -108,7 +108,7 @@ export default function TermsOfServicePage() {
           </div>
 
           <div className="grid gap-4 lg:grid-cols-[0.8fr_1.2fr]">
-            <aside className="rounded-[2rem] border border-outline-variant/35 bg-white/88 p-5 shadow-[0_22px_55px_rgba(89,17,98,0.08)] backdrop-blur-md lg:sticky lg:top-28">
+            <aside className="rounded-[2rem] border border-outline-variant/35 bg-white/88 p-5 shadow-[0_22px_55px_rgba(89,17,98,0.08)] backdrop-blur-md lg:sticky lg:top-28 h-full">
               <p className="text-label-sm font-semibold uppercase tracking-[0.18em] text-primary">Sections</p>
               <nav className="mt-4 flex flex-col gap-2">
                 {terms.map((sec) => (

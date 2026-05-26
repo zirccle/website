@@ -20,3 +20,6 @@ pnpm-debug.log*
 
 # System
 .DS_Store
+
+# Local server-side data (waitlist, etc.)
+.data/

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { images } from "../screen-data";
 import { FinalCta, SiteFooter, SiteHeader } from "../site-components";
 
@@ -30,7 +31,7 @@ export default function AboutPage() {
       <SiteHeader />
 
       <section className="hero-gradient pt-28 pb-20 md:pt-32 md:pb-28">
-        <div className="mx-auto grid max-w-container-max grid-cols-1 gap-12 px-margin-mobile md:px-margin-desktop lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+        <div className="mx-auto grid max-w-container-max grid-cols-1 gap-12 px-margin-mobile md:px-margin-desktop lg:grid-cols-[0.9fr_1.1fr] lg:items-stretch">
           <div className="space-y-6">
             <span className="inline-flex w-fit items-center rounded-full border border-primary/10 bg-white/78 px-4 py-2 text-label-sm font-semibold uppercase tracking-[0.24em] text-primary shadow-sm backdrop-blur-md">
               Our story
@@ -59,7 +60,7 @@ export default function AboutPage() {
 
           <div className="relative">
             <div className="rounded-[2.25rem] border border-outline-variant/35 bg-white/85 p-3 shadow-[0_28px_80px_rgba(89,17,98,0.12)] backdrop-blur-md">
-              <img className="aspect-[1.1] w-full rounded-[1.5rem] object-cover" src={images.aboutCloset} alt="Minimalist walk-in closet" />
+              <Image className="aspect-[1.1] w-full rounded-[1.5rem] object-cover" src={images.aboutCloset} alt="Minimalist walk-in closet" width={960} height={870} />
             </div>
             <div className="absolute -bottom-8 left-6 max-w-[260px] rounded-[1.5rem] border border-outline-variant/35 bg-white/90 p-5 shadow-[0_18px_36px_rgba(89,17,98,0.12)] backdrop-blur-md">
               <div className="material-symbols-outlined mb-3 text-3xl text-primary" style={{ fontVariationSettings: "'FILL' 1" }}>auto_awesome</div>
@@ -91,7 +92,7 @@ export default function AboutPage() {
             </div>
 
             <div className="rounded-[2rem] border border-outline-variant/35 bg-surface-container-low p-8 shadow-[0_20px_50px_rgba(89,17,98,0.08)] md:col-span-12 md:p-12">
-              <div className="grid gap-8 lg:grid-cols-[1fr_0.95fr] lg:items-center">
+                <div className="grid gap-4 lg:grid-cols-[1fr_0.95fr] lg:items-center">
                 <div>
                   <h2 className="text-headline-md font-semibold text-primary">Solving the nothing-to-wear paradox</h2>
                   <p className="mt-4 text-body-lg leading-relaxed text-on-surface-variant">
@@ -113,8 +114,8 @@ export default function AboutPage() {
                   </ul>
                 </div>
                 <div className="grid gap-4 sm:grid-cols-2">
-                  <img className="h-56 w-full rounded-[1.5rem] object-cover" src={images.wardrobeFlatlay} alt="Fashion accessories flatlay" />
-                  <img className="mt-6 h-56 w-full rounded-[1.5rem] object-cover sm:mt-10" src={images.closet} alt="Clothing rack" />
+                  <Image className="h-56 w-full rounded-[1.5rem] object-cover" src={images.wardrobeFlatlay} alt="Fashion accessories flatlay" width={560} height={420} />
+                  <Image className="mt-6 h-56 w-full rounded-[1.5rem] object-cover sm:mt-10" src={images.closet} alt="Clothing rack" width={560} height={420} />
                 </div>
               </div>
             </div>
