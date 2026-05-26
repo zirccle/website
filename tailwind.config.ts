@@ -4,7 +4,7 @@ const config: Config = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
@@ -85,9 +85,9 @@ const config: Config = {
         "3xl": "1.5rem", // 24px
       },
       spacing: {
-        "margin-desktop": "80px",
+        "margin-desktop": "64px",
         "margin-mobile": "20px",
-        "section-gap": "120px",
+        "section-gap": "72px",
         "stack-sm": "8px",
         "stack-md": "16px",
         "stack-lg": "32px",

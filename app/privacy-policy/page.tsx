@@ -50,7 +50,7 @@ const sections = [
   },
   {
     title: "Contact Us",
-    content: "If you have any questions about this privacy policy or our privacy practices, please contact our data privacy manager at hello@zirccle.com."
+    content: "If you have any questions about this privacy policy or our privacy practices, please contact our data privacy manager at admin@zirccle.com."
   }
 ];
 
@@ -59,34 +59,39 @@ export default function PrivacyPolicyPage() {
     <main className="min-h-screen bg-background flex flex-col justify-between">
       <SiteHeader />
 
-      <section className="hero-gradient pt-28 pb-20 md:pt-32 md:pb-28">
-        <div className="mx-auto grid max-w-container-max grid-cols-1 gap-8 px-margin-mobile md:px-margin-desktop lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+      <section className="hero-gradient pt-16 pb-8 md:pt-20 md:pb-12">
+        <div className="mx-auto max-w-container-max px-margin-mobile md:px-margin-desktop">
           <div className="space-y-6">
             <span className="inline-flex w-fit items-center rounded-full border border-primary/10 bg-white/78 px-4 py-2 text-label-sm font-semibold uppercase tracking-[0.24em] text-primary shadow-sm backdrop-blur-md">
               Legal
             </span>
-            <h1 className="max-w-xl text-display-lg-mobile font-semibold leading-[1.02] tracking-tight text-primary md:text-display-lg">
-              Privacy Policy
-            </h1>
-            <p className="max-w-xl text-body-lg leading-relaxed text-on-surface-variant">
+            <h1 className="text-display-lg font-semibold leading-tight text-primary">Privacy Policy</h1>
+            <p className="text-body-lg leading-relaxed text-on-surface-variant max-w-2xl">
               We value your privacy and are committed to protecting your personal data while you explore Zirccle.
             </p>
-            <div className="grid gap-4 sm:grid-cols-2">
+
+            <div className="grid gap-4 sm:grid-cols-2 max-w-2xl">
               <div className="rounded-[1.5rem] border border-outline-variant/35 bg-white/85 p-5 shadow-[0_18px_40px_rgba(89,17,98,0.08)]">
                 <div className="text-label-sm font-semibold uppercase tracking-[0.18em] text-primary">Last updated</div>
                 <p className="mt-2 text-body-lg text-on-surface-variant">May 23, 2026</p>
               </div>
               <div className="rounded-[1.5rem] border border-outline-variant/35 bg-white/85 p-5 shadow-[0_18px_40px_rgba(89,17,98,0.08)]">
                 <div className="text-label-sm font-semibold uppercase tracking-[0.18em] text-primary">Scope</div>
-                <p className="mt-2 text-body-lg text-on-surface-variant">Website, waitlist, and contact forms.</p>
+                <p className="mt-2 text-body-lg text-on-surface-variant">Website and waitlist submissions.</p>
               </div>
             </div>
           </div>
 
-          <article className="rounded-[2rem] border border-outline-variant/35 bg-white/88 p-6 shadow-[0_22px_55px_rgba(89,17,98,0.08)] backdrop-blur-md md:p-10">
-            <div className="space-y-10">
+          <article className="mt-8 rounded-[1.5rem] border border-outline-variant/35 bg-white/88 p-6 shadow-[0_22px_55px_rgba(89,17,98,0.08)] backdrop-blur-md md:p-8">
+            <nav className="mb-6 flex flex-wrap gap-2">
+              {sections.map((s, i) => (
+                <a key={i} href={`#section-${i}`} className="text-sm text-on-surface-variant hover:text-primary">{s.title}</a>
+              ))}
+            </nav>
+
+            <div className="space-y-8">
               {sections.map((sec, idx) => (
-                <section key={idx} className="space-y-4">
+                <section key={idx} id={`section-${idx}`} className="space-y-4">
                   <h2 className="text-headline-sm font-semibold text-primary">{sec.title}</h2>
                   <p className="text-body-md leading-relaxed text-on-surface-variant">{sec.content}</p>
 
@@ -118,17 +123,12 @@ export default function PrivacyPolicyPage() {
               ))}
             </div>
 
-            <div className="mt-10 flex flex-col gap-4 border-t border-outline-variant/25 pt-6 sm:flex-row sm:items-center sm:justify-between">
-              <Link className="inline-flex items-center gap-2 text-label-sm font-semibold uppercase tracking-[0.18em] text-on-surface-variant transition-colors hover:text-primary" href="/">
+            <div className="mt-8 border-t border-outline-variant/25 pt-6 flex items-center justify-between">
+              <a className="inline-flex items-center gap-2 text-label-sm font-semibold uppercase tracking-[0.18em] text-on-surface-variant transition-colors hover:text-primary" href="/">
                 <span className="material-symbols-outlined text-lg">arrow_back</span>
                 Return to home
-              </Link>
-              <button
-                onClick={() => window.print()}
-                className="rounded-full bg-primary px-6 py-3 text-label-sm font-semibold uppercase tracking-[0.18em] text-on-primary transition-all duration-200 hover:bg-primary-container active:scale-95"
-              >
-                Print policy
-              </button>
+              </a>
+              <button onClick={() => window.print()} className="rounded-full bg-primary px-6 py-3 text-label-sm font-semibold uppercase tracking-[0.18em] text-on-primary transition-all duration-200 hover:bg-primary-container active:scale-95">Print policy</button>
             </div>
           </article>
         </div>
