@@ -66,7 +66,7 @@ export default function Home() {
     <main className="min-h-screen bg-background">
       <SiteHeader />
 
-      <section className="hero-gradient relative overflow-hidden pt-28 pb-20 md:pt-32 md:pb-28">
+      <section className="hero-gradient relative overflow-hidden pt-20 pb-12 md:pt-24 md:pb-16">
         <div className="mx-auto grid max-w-container-max grid-cols-1 gap-14 px-margin-mobile md:px-margin-desktop lg:grid-cols-[0.98fr_1.02fr] lg:items-stretch">
           <div className="relative z-10 flex flex-col gap-7">
             <span className="inline-flex w-fit items-center rounded-full border border-primary/10 bg-white/75 px-4 py-2 text-label-sm font-semibold uppercase tracking-[0.24em] text-primary shadow-sm backdrop-blur-md">
