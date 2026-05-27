@@ -1,3 +1,10 @@
 import nextVitals from "eslint-config-next/core-web-vitals";
 
-export default nextVitals;
+const eslintConfig = [
+  {
+    ignores: ["figma-design-code/**"],
+  },
+  ...nextVitals,
+];
+
+export default eslintConfig;

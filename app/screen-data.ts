@@ -1,59 +1,60 @@
 export const images = {
-  closet:
-    "https://lh3.googleusercontent.com/aida-public/AB6AXuCEryTN_aDpo1WqjlfCGLRfgaDb_r_NjeziZihgTdGWgTLd7lCpRiF9cUjK86g0g3gCNUtN9gBzh8rW4N2KpHL4t6z31uvH17wj2yFzmjnTLLTMLZHzZbXvXiMGDEP2ZyM1ZV_o5HJMmNkT-2k95S_gnvjbUxGv5ZJfPbRIrmz-RCfNF_jNNNUc1Ox74MDreyZmqH0SxHzND_3ak8vTplDNQvP0TqeDHrfN8xRL3J4TCKvAlaoryCDyMO-_0w9I-uMdLvzvqGEd8FJk",
-  wardrobeFlatlay:
-    "https://lh3.googleusercontent.com/aida-public/AB6AXuCDcE8CUIjPSIBO5200i__n40RvRYG0mo-LXBqZCnDJwGBf_Q34CNmqPczYz6b5Ncb_9QOp9pobQJdLvHZ9hBa32oD8lq2-FgxiR78IqE7h9dAegLtsFVjaEfZJYrf7aZIyGGdm-6Rmx38LHORMe0ixiuQe7P9N7Skm_iALTtoD4DWYOx1MFjqNK7l603KfRhAaW30I891iixlNpjgaHO5LMXlKPg1AjWrxeKMTZiDbGe1hycEBKu0JgV_VOq3_ByIiyD4IcZZ5A8ft",
-  cityStyle:
-    "https://lh3.googleusercontent.com/aida-public/AB6AXuCExLfXy2y6Cn1cHK1cM4rLJF5CfhFv1mqRi7YfyvaE5-Rqkay-cVAHre8MC33CXELjqxm8EvXyHJBpfiXiUNSdAsx0JK0a8wcGytU46jRuJkDgLtLczRXCk1oVnXGlUIT-t8-DbAZQSCOBS7w0I_gHsCSgizSXEd4GMOy387Zaa2f_ZDCoTqVF6rWr1SMzMaXqSojmVxAMIBZtqQtXhsYgxYz8PjoOFhVzK2mqy9lhe3NcMWa63QIi_yDoeK7pZc2pe7CsYOaJ8B4s",
-  weatherLook:
-    "https://lh3.googleusercontent.com/aida-public/AB6AXuDE8lwpwcLEq0InvgGv8u8xjrnf-abzUpQXdTAqMx4kmsw1cboRm7cv0tSUE-2ALWALzHZgRwZIyQ_B35iS4k7ArHtgFz04xf2gBJAia2kn7ioVM_vXYYmv5XV6iULZS9EvwIIlhENpfpPeOYgIf5v4nDAQyrDXxmYvCIUTC9ocT-LEhrEt4J-Uej9ph-528o5gh6yWiHTGVliJaBU8GcpPg2VPwtiasBjnifVznHktfY0pim_NUo3lpeo6EWe4UvPFKhYTA_LDDWnI",
-  journeyHero:
-    "https://lh3.googleusercontent.com/aida-public/AB6AXuA0D8cZJhD5Fgzj0W4z3UfQ7KmKS7W1B-xxWsIR20hGxBISY0BQ-GczyLLB4VdU8VwQLVknn_rur5ayMQa6Ss-zFPkNKhXotQOzNfaX9am5_fH51FlT8kkXgm4hbsmh8g5EFgTbJrrz0mmtmlg1dEIt3tRuRmFk0A9-c5fwARUyPYB1-47pHLTYa-OXHmBWygPBmYcaRY7zpuEUDqskrGIzsdPH20FeXTf8MnB8e4OfC2A5EnYuss-MgXNnd072CBf4JDkvLtSb8lYQ",
-  scanner:
-    "https://lh3.googleusercontent.com/aida-public/AB6AXuD6a3P2WwHWd_WJCFwR_Rdo8271VTD1k8uqAfZElga2YmBDMN2ciRmEnhqWMCd7fUOGq4xfutPT5pvMN-hqzJaZnrUaGKlAloT3N1e8QoE2LQUA8E2LEydPrei0g8H_jWjMBi7gNylm_NXshbC1gBP4H1MnpbpaIneK_YBGBlgymzAfLHaSZJndH7THenrQBYv4_voj7JEaXQr4mJmcHuzFX-nMJxweoPTva76zuuQNpCURpuOXSo53pDLu_-2RoPxyM3AKiZwPGJEq",
-  savedLooks:
-    "https://lh3.googleusercontent.com/aida-public/AB6AXuBfcuhEh_z3saufbNUKzTuNdXo9OPNU94YmH9VJxEVpVd3JxXiXhrPSCRo4hhN4h2oQ5OudBJCTGWxcQSPzSRxBii2K-RYTRJr0tbEVR9RUDF9IC8CJAqQ4iruDvz2WRq5PD_11FXBRp_f8nw5UPhCkfuguaqpmN13DZNqTZPhmN0X1AfZJ6I4oCNooNJ2pcBi-c-ijtn8OIbQuJi5hcJsGLNxoBCzWzr_YQyHh2Y_ruCM2t0XqUyCIHPX1Z9e_3mnFvXgoCrZPW1xK",
-  winterLook:
-    "https://lh3.googleusercontent.com/aida-public/AB6AXuCy2mpdwbQmlCsApiOdC80vH3L8vjfvMAoeZehixK42gp1cxyDwqkFAsV2R3ajqyHfGI_vPE4DjCku6LXiageidTMEAGiAlSk2LBoAvkAPXOk7ju9Kn-TXJT6C_ldVsMDB9CUi3qRbbPVpIqXtks5dtXMnbkO9CN9gy06u5dYME7TvJt3HyMsLJHpnIRoeQ27uWOUSU6GKcaWNdu6C43i8ozH45_L8dWHh61iJZudp2KYjjDH_kHUUs8DntavVI_COXSu4m5RBAXHSu",
-  aboutCloset:
-    "https://lh3.googleusercontent.com/aida-public/AB6AXuDK6snmMMPXr6fBH3YFNXZ0Pr7uD9nZD2vLT3IYa7NfUtTJ4xmkIDsNqajhAPTVPUuKp8KkpP8oN1M1Mo9J4YiHbvGGnW3ttpcENALGP5M5Gphg9gKn6yCgioNkYbClCWPYtcQX0G2LTLviRF5RYEdlijO3COzEqmd8mlNoeO1snI-0vWdLRl0p3nLNDnacNneoW0fBmILjFCdZqCiReSuJuoGjoX2k-kmH_N1RZLma5YQ1BYaJt7lIEAGq336doVqRz2GhwZ_tmjwj",
+  featuresHero: "/figma/features/811f0aa41b5b2dd6b07d4a7507e6cec94f8c4b01.png",
+  wardrobeCapture: "/figma/features/09b9f511393d55e5b4c7f71a38b58927e33d7c7d.png",
+  styleSuggestion: "/figma/features/02a41e1733fda8d5b8dbd6282fd7ea277f53eec3.png",
+  calendarPlanning: "/figma/features/32d5f93d2b9741617a11ebe0d9546063196cf5ef.png",
+  journeyHero: "/figma/how-it-works/7b782aaa343996d9661e89d0178a95b3532fb5fd.png",
+  scanner: "/figma/how-it-works/0c47be827ec42a9aa490542efb0ea48ccb11cdcd.png",
+  savedLooks: "/figma/how-it-works/dfc4861c034dac546e99477aad90a824166ae557.png",
+  winterLook: "/figma/how-it-works/9de4d89cd809a4d83cd3989836283152a3b15eaf.png",
+  dailyLook: "/figma/how-it-works/9b1ee97af29e5613fb9610d0783fd13f6878d9aa.png",
+  finalLook: "/figma/how-it-works/81fc09be94a0d93daecdafebf09c73b1623305a5.png",
+  aboutHero: "/figma/about/5fc6c546dc4113d7bfdcee445f184f6a0a7244fb.png",
+  aboutDetail: "/figma/about/91dac7a11a0db7456711611d1549d26ad56412ad.png",
+  aboutLifestyle: "/figma/about/9ce4fc1bad5818a5b0c7ef091891033ffb40dc90.png",
 };
 
 export const featureCards = [
   {
-    title: "Smart Wardrobe",
-    text: "Stop forgetting what you own. Snap a photo of your clothes, and Zirccle helps remove backgrounds, categorize items, and tag them by color, season, and occasion.",
-    image: images.wardrobeFlatlay,
+    title: "Smart wardrobe",
+    text: "Snap clothing photos, remove noisy backgrounds, and turn every piece into a clean searchable closet.",
+    image: images.wardrobeCapture,
   },
   {
-    title: "AI Style Suggestions",
-    text: "Your personal stylist, available 24/7. Get recommendations based on your unique style profile and daily needs.",
-    image: images.cityStyle,
+    title: "AI style suggestions",
+    text: "Generate outfits from what you already own, tuned to your taste, mood, weather, and plans.",
+    image: images.styleSuggestion,
   },
   {
-    title: "Plan with Confidence",
-    text: "Plan outfits for the week, match looks to your events, and make every morning easier.",
-    image: images.weatherLook,
+    title: "Plan with confidence",
+    text: "Map looks to your calendar before the week begins so mornings start with a ready decision.",
+    image: images.calendarPlanning,
   },
 ];
 
-export const steps = [
+export const journeySteps = [
   {
+    number: "1",
     title: "Add your wardrobe",
-    text: "Snap photos of your clothes, shoes, and accessories. Zirccle turns them into a digital closet.",
+    text: "Capture clothes, shoes, and accessories. Zirccle cleans the background and organizes each item by useful details.",
     image: images.scanner,
   },
   {
+    number: "2",
     title: "Get AI suggestions",
-    text: "The AI stylist analyzes your taste and combines pieces into outfits you can actually wear.",
+    text: "The stylist engine studies your closet, forecast, and occasion to suggest combinations that feel wearable.",
+    image: images.styleSuggestion,
   },
   {
+    number: "3",
     title: "Save your looks",
-    text: "Create collections for work, weekends, travel, and special events.",
+    text: "Keep favorite outfits in a personal lookbook for work, weekends, travel, and special events.",
     image: images.savedLooks,
   },
   {
+    number: "4",
     title: "Plan ahead",
-    text: "Connect outfits to your week so every plan has a look ready.",
+    text: "Attach outfits to days and events so every plan has a look ready before the morning rush.",
+    image: images.calendarPlanning,
   },
 ];

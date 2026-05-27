@@ -9,6 +9,7 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        "muted-strong": "#4f434e",
         primary: {
           DEFAULT: "#591162",
           container: "#732c7b",
@@ -93,6 +94,22 @@ const config: Config = {
         "stack-lg": "32px",
         gutter: "24px",
         "container-max": "1280px",
+      },
+      maxWidth: {
+        container: "1280px",
+      },
+      boxShadow: {
+        soft: "0 4px 20px rgba(115, 44, 123, 0.05)",
+        strong: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+      },
+      fontSize: {
+        "body-md": ["1rem", { lineHeight: "1.6" }],
+        "body-lg": ["1.125rem", { lineHeight: "1.6" }],
+        "label-sm": ["0.875rem", { lineHeight: "1" }],
+        "headline-sm": ["1.5rem", { lineHeight: "1.3" }],
+        "headline-md": ["2.5rem", { lineHeight: "1.12" }],
+        "display-lg-mobile": ["3rem", { lineHeight: "1.08" }],
+        "display-lg": ["4rem", { lineHeight: "1.1" }],
       },
       fontFamily: {
         manrope: ["Manrope", "sans-serif"],
