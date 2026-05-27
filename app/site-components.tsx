@@ -2,36 +2,107 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { FormEvent, useState } from "react";
+import { usePathname } from "next/navigation";
+import { FormEvent, ReactNode, useState } from "react";
 
-const primaryLinks = [
+const navLinks = [
   { href: "/features", label: "Features" },
   { href: "/how-it-works", label: "How it works" },
+  { href: "/features#why-zirccle", label: "Why Zirccle" },
   { href: "/about", label: "About" },
-  { href: "/contact", label: "Contact" },
+  { href: "/features#faq", label: "FAQ" },
 ];
 
-function BrandLogo() {
+export function BrandLogo() {
   return (
-    <div className="flex items-center gap-3">
-      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[1.1rem] border border-outline-variant/35 bg-white/90 shadow-[0_12px_26px_rgba(89,17,98,0.08)] backdrop-blur-sm md:h-14 md:w-14">
-        <Image alt="Zirccle" className="h-10 w-10 object-contain md:h-11 md:w-11" height={56} priority src="/brand/zirccle-logo.png" width={56} />
-      </div>
-      <div className="hidden flex-col leading-none sm:flex">
-        <span className="text-label-sm font-semibold uppercase tracking-[0.3em] text-primary">Zirccle</span>
-        <span className="mt-1 text-[0.72rem] uppercase tracking-[0.24em] text-on-surface-variant">Wardrobe concierge</span>
-      </div>
+    <div className="flex items-center gap-2.5">
+      <span className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-lg font-bold text-white shadow-soft">
+        Z
+      </span>
+      <span className="text-xl font-medium uppercase tracking-[0.1em] text-primary">
+        Zirccle
+      </span>
     </div>
+  );
+}
+
+export function SiteHeader() {
+  const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+
+  return (
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-black/5 bg-background/75 shadow-[0_1px_2px_rgba(0,0,0,0.05)] backdrop-blur-md">
+      <div className="mx-auto flex h-20 max-w-container items-center justify-between px-5 md:px-10 lg:px-20">
+        <Link href="/" aria-label="Zirccle home">
+          <BrandLogo />
+        </Link>
+
+        <nav className="hidden items-center gap-8 md:flex" aria-label="Primary navigation">
+          {navLinks.map((link) => {
+            const active = link.href.split("#")[0] === pathname;
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`border-b-2 py-1 text-base transition-colors ${
+                  active
+                    ? "border-primary font-semibold text-primary"
+                    : "border-transparent text-muted-strong hover:text-primary"
+                }`}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
+        </nav>
+
+        <Link className="hidden rounded-lg bg-primary px-6 py-3 text-base text-white shadow-soft transition hover:bg-primary-container active:scale-[0.98] md:inline-flex" href="/contact">
+          Get first access
+        </Link>
+
+        <button
+          aria-expanded={open}
+          aria-label="Toggle navigation"
+          className="rounded-lg border border-outline-variant bg-white px-3 py-2 text-primary md:hidden"
+          onClick={() => setOpen((value) => !value)}
+          type="button"
+        >
+          <span className="material-symbols-outlined text-2xl">{open ? "close" : "menu"}</span>
+        </button>
+      </div>
+
+      {open && (
+        <div className="border-t border-outline-variant bg-background/95 px-5 py-4 backdrop-blur-md md:hidden">
+          <nav className="mx-auto flex max-w-container flex-col gap-2" aria-label="Mobile navigation">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setOpen(false)}
+                className="rounded-lg px-3 py-3 text-base font-medium text-muted-strong hover:bg-surface-container-low hover:text-primary"
+              >
+                {link.label}
+              </Link>
+            ))}
+            <Link
+              className="mt-2 rounded-lg bg-primary px-4 py-3 text-center text-base font-medium text-white"
+              href="/contact"
+              onClick={() => setOpen(false)}
+            >
+              Get first access
+            </Link>
+          </nav>
+        </div>
+      )}
+    </header>
   );
 }
 
 export function WaitlistForm({ placement = "hero" }: { placement?: "hero" | "footer" | "cta" }) {
   const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">(
-    "idle",
-  );
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const isDark = placement === "cta";
   const id = `${placement}-email`;
-  const isDark = placement === "cta" || placement === "footer";
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -41,277 +112,139 @@ export function WaitlistForm({ placement = "hero" }: { placement?: "hero" | "foo
       const response = await fetch("/api/waitlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, source: `zirccle-landing-${placement}` }),
+        body: JSON.stringify({ email, source: `zirccle-${placement}` }),
       });
-
       const data = await response.json();
 
       if (!response.ok || !data.success) {
         throw new Error(data.error || "Waitlist request failed");
       }
 
-      setStatus("success");
       setEmail("");
-    } catch (err) {
-      console.error(err);
+      setStatus("success");
+    } catch (error) {
+      console.error(error);
       setStatus("error");
     }
   }
 
   return (
-    <div className="w-full max-w-xl">
-      <form
-        className={`group flex w-full flex-col gap-2 rounded-[1.5rem] border p-2.5 shadow-[0_22px_55px_rgba(89,17,98,0.12)] transition-all duration-300 sm:flex-row ${
-          isDark
-            ? "border-white/15 bg-white/8 backdrop-blur-xl focus-within:border-white/35 focus-within:bg-white/12"
-            : "border-outline-variant/70 bg-white/85 backdrop-blur-xl focus-within:border-primary/40 focus-within:bg-white"
-        }`}
-        onSubmit={handleSubmit}
-        aria-live="polite"
-      >
-        <label htmlFor={id} className="sr-only">
+    <div className="w-full">
+      <form className="flex w-full flex-col gap-4 pt-4 sm:flex-row" onSubmit={handleSubmit}>
+        <label className="sr-only" htmlFor={id}>
           Email address
         </label>
-        <div className="flex flex-1 items-center rounded-[1.05rem] px-4 py-3 sm:py-0">
-          <span className={`material-symbols-outlined mr-3 text-[22px] ${isDark ? "text-white/65" : "text-outline"}`}>
-            mail
-          </span>
+        <div className={`flex min-h-14 flex-1 items-center gap-2 rounded-lg border px-4 shadow-sm ${isDark ? "border-white/20 bg-white/10" : "border-outline-variant bg-background"}`}>
+          <span className={`material-symbols-outlined text-xl ${isDark ? "text-white/70" : "text-outline"}`}>mail</span>
           <input
+            className={`w-full bg-transparent text-base outline-none placeholder:text-muted-strong/80 ${isDark ? "text-white" : "text-on-surface"}`}
             id={id}
             name="email"
-            type="email"
-            required
-            placeholder="Enter your email address"
-            className={`w-full border-none bg-transparent text-body-md outline-none placeholder:text-outline/80 focus:ring-0 ${
-              isDark ? "text-white placeholder:text-white/55" : "text-on-surface"
-            }`}
-            value={email}
             onChange={(event) => setEmail(event.target.value)}
+            placeholder="Enter your email address"
+            required
+            type="email"
+            value={email}
           />
         </div>
         <button
-          type="submit"
-          disabled={status === "loading"}
-          className={`whitespace-nowrap rounded-[1.05rem] px-7 py-4 font-label-sm font-semibold uppercase tracking-[0.18em] transition-all duration-200 active:scale-95 ${
-            isDark
-              ? "bg-white text-primary hover:bg-surface-container-low"
-              : "bg-primary text-on-primary hover:bg-primary-container"
+          className={`min-h-14 rounded-lg px-8 text-base font-semibold shadow-soft transition hover:-translate-y-0.5 active:translate-y-0 disabled:cursor-wait disabled:opacity-70 ${
+            isDark ? "bg-white text-primary" : "bg-primary text-white hover:bg-primary-container"
           }`}
+          disabled={status === "loading"}
+          type="submit"
         >
           {status === "loading" ? "Joining..." : "Get first access"}
         </button>
       </form>
-      <p
-        className={`mt-3 flex items-center gap-2 text-label-sm ${
-          status === "success"
-            ? "text-emerald-600"
-            : status === "error"
-            ? "text-rose-600"
-            : isDark
-            ? "text-white/72"
-            : "text-on-surface-variant"
-        }`}
-      >
-        {status === "success" && (
-          <>
-            <span className="material-symbols-outlined text-base">check_circle</span>
-            You&apos;re on the first-access list. Welcome!
-          </>
-        )}
-        {status === "error" && (
-          <>
-            <span className="material-symbols-outlined text-base">error</span>
-            Something went wrong. Please try again.
-          </>
-        )}
-        {status === "idle" && (
-          <>
-            <span className="material-symbols-outlined text-base">check_circle</span>
-            No spam. Just early access updates.
-          </>
-        )}
-        {status === "loading" && (
-          <>
-            <span className="material-symbols-outlined animate-spin text-base">sync</span>
-            Saving your spot...
-          </>
-        )}
+      <p className={`mt-3 flex items-center gap-2 text-sm font-semibold ${isDark ? "text-white/78" : "text-muted-strong"}`}>
+        <span className="material-symbols-outlined text-base">
+          {status === "error" ? "error" : status === "loading" ? "sync" : "check_circle"}
+        </span>
+        {status === "success"
+          ? "You're on the first-access list."
+          : status === "error"
+          ? "We could not save that email. Please try again."
+          : status === "loading"
+          ? "Saving your spot..."
+          : "No spam. Just early access updates."}
       </p>
     </div>
   );
 }
 
-export function SiteHeader() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
+export function Pill({ children, tone = "soft" }: { children: ReactNode; tone?: "soft" | "bright" }) {
   return (
-    <header className="fixed left-0 top-0 z-50 w-full border-b border-white/40 bg-white/75 backdrop-blur-2xl">
-      <div className="mx-auto flex h-20 max-w-container-max items-center justify-between px-margin-mobile md:px-margin-desktop">
-        <Link className="flex items-center gap-2" href="/" aria-label="Zirccle home">
-          <BrandLogo />
-        </Link>
-
-        <nav className="hidden items-center gap-8 md:flex" aria-label="Primary navigation">
-          {primaryLinks.map((link) => (
-            <Link
-              key={link.href}
-              className="text-body-md font-medium text-on-surface-variant transition-colors hover:text-primary"
-              href={link.href}
-            >
-              {link.label}
-            </Link>
-          ))}
-          <Link
-            className="rounded-full border border-primary/10 bg-primary px-5 py-3 text-label-sm font-semibold uppercase tracking-[0.2em] text-on-primary shadow-[0_14px_28px_rgba(89,17,98,0.16)] transition-all duration-200 hover:bg-primary-container active:scale-95"
-            href="/contact"
-          >
-            Get first access
-          </Link>
-        </nav>
-
-        <button
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="rounded-full border border-outline-variant/50 bg-white p-2.5 text-primary shadow-sm transition-transform duration-200 active:scale-95 md:hidden"
-          aria-label="Toggle menu"
-        >
-          <span className="material-symbols-outlined text-3xl">
-            {mobileMenuOpen ? "close" : "menu"}
-          </span>
-        </button>
-      </div>
-
-      {mobileMenuOpen && (
-        <div className="border-t border-outline-variant/40 bg-white/96 px-margin-mobile py-5 shadow-[0_18px_50px_rgba(89,17,98,0.1)] backdrop-blur-2xl md:hidden">
-          <div className="mx-auto flex max-w-container-max flex-col gap-2">
-            {primaryLinks.map((link) => (
-              <Link
-                key={link.href}
-                className="rounded-2xl px-4 py-3 text-body-lg font-medium text-on-surface transition-colors hover:bg-surface-container-low hover:text-primary"
-                onClick={() => setMobileMenuOpen(false)}
-                href={link.href}
-              >
-                {link.label}
-              </Link>
-            ))}
-            <Link
-              className="mt-2 rounded-2xl bg-primary px-4 py-4 text-center text-label-sm font-semibold uppercase tracking-[0.2em] text-on-primary transition-colors hover:bg-primary-container"
-              onClick={() => setMobileMenuOpen(false)}
-              href="/contact"
-            >
-              Get first access
-            </Link>
-          </div>
-        </div>
-      )}
-    </header>
+    <span className={`inline-flex w-fit rounded-full px-4 py-1.5 text-sm font-semibold uppercase tracking-[0.1em] ${tone === "bright" ? "bg-primary-fixed text-primary-container" : "bg-secondary-container text-primary"}`}>
+      {children}
+    </span>
   );
 }
 
-export function SiteFooter() {
+export function PageShell({ children }: { children: ReactNode }) {
   return (
-    <footer className="border-t border-outline-variant/40 bg-surface-container-low px-margin-mobile py-10 md:py-16 md:px-margin-desktop">
-      <div className="mx-auto max-w-container-max rounded-[2rem] border border-outline-variant/35 bg-white/80 p-6 shadow-[0_20px_60px_rgba(89,17,98,0.08)] backdrop-blur-xl md:p-12">
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1.2fr_0.8fr_0.8fr_1fr]">
-          <div className="space-y-4">
-            <div className="flex items-center gap-2">
-              <BrandLogo />
-            </div>
-            <p className="max-w-sm text-body-md leading-relaxed text-on-surface-variant">
-              Intelligent style, curated from what you own. Discover your wardrobe in motion.
-            </p>
-          </div>
+    <main className="min-h-screen bg-background text-on-surface">
+      <SiteHeader />
+      {children}
+      <SiteFooter />
+    </main>
+  );
+}
 
-          <div>
-            <h4 className="mb-4 text-label-sm font-bold uppercase tracking-[0.25em] text-primary">
-              Product
-            </h4>
-            <div className="flex flex-col gap-3 text-body-md text-on-surface-variant">
-              <Link className="transition-colors hover:text-primary" href="/features">
-                Features
-              </Link>
-              <Link className="transition-colors hover:text-primary" href="/how-it-works">
-                How it works
-              </Link>
-              <Link className="transition-colors hover:text-primary" href="/wardrobe-app">
-                Wardrobe app
-              </Link>
-            </div>
-          </div>
+export function ImageFrame({
+  src,
+  alt,
+  className = "",
+  priority = false,
+}: {
+  src: string;
+  alt: string;
+  className?: string;
+  priority?: boolean;
+}) {
+  return (
+    <div className={`overflow-hidden rounded-2xl bg-white shadow-strong ${className}`}>
+      <Image className="h-full w-full object-cover" src={src} alt={alt} width={1100} height={900} priority={priority} />
+    </div>
+  );
+}
 
-          <div>
-            <h4 className="mb-4 text-label-sm font-bold uppercase tracking-[0.25em] text-primary">
-              Company
-            </h4>
-            <div className="flex flex-col gap-3 text-body-md text-on-surface-variant">
-              <Link className="transition-colors hover:text-primary" href="/about">
-                About Us
-              </Link>
-              <Link className="transition-colors hover:text-primary" href="/contact">
-                Contact
-              </Link>
-            </div>
-          </div>
-
-          <div className="space-y-4">
-            <h4 className="text-label-sm font-bold uppercase tracking-[0.25em] text-primary">
-              Stay in the loop
-            </h4>
-            <WaitlistForm placement="footer" />
-          </div>
-        </div>
-
-        <div className="mt-10 flex flex-col gap-4 border-t border-outline-variant/30 pt-6 text-label-sm font-semibold text-on-surface-variant sm:flex-row sm:items-center sm:justify-between">
-          <span>&copy; {new Date().getFullYear()} Zirccle. All rights reserved.</span>
-          <div className="flex flex-wrap gap-6">
-            <Link className="transition-colors hover:text-primary" href="/privacy-policy">
-              Privacy Policy
-            </Link>
-            <Link className="transition-colors hover:text-primary" href="/terms-of-service">
-              Terms of Service
-            </Link>
-          </div>
-        </div>
-      </div>
-    </footer>
+export function SectionHeader({
+  label,
+  title,
+  text,
+  centered = false,
+}: {
+  label?: string;
+  title: string;
+  text?: string;
+  centered?: boolean;
+}) {
+  return (
+    <div className={`space-y-5 ${centered ? "mx-auto max-w-4xl text-center" : "max-w-3xl"}`}>
+      {label && <Pill>{label}</Pill>}
+      <h2 className="text-balance text-4xl font-semibold leading-[1.12] tracking-tight text-primary md:text-5xl">
+        {title}
+      </h2>
+      {text && <p className="text-pretty text-lg leading-8 text-muted-strong">{text}</p>}
+    </div>
   );
 }
 
 export function FinalCta() {
   return (
-    <section className="relative overflow-hidden bg-primary py-24 text-on-primary">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(252,170,255,0.18),transparent_30%),radial-gradient(circle_at_85%_10%,rgba(255,255,255,0.12),transparent_28%),linear-gradient(180deg,rgba(89,17,98,0.96),rgba(89,17,98,0.9))]" />
-      <div className="absolute -right-24 top-0 h-[360px] w-[360px] rounded-full bg-primary-fixed-dim/20 blur-[120px]" />
-      <div className="absolute bottom-0 left-0 h-[300px] w-[300px] rounded-full bg-white/10 blur-[90px]" />
-
-      <div className="relative z-10 mx-auto grid max-w-container-max grid-cols-1 gap-10 px-margin-mobile md:px-margin-desktop lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
+    <section className="bg-primary py-20 text-white md:py-24">
+      <div className="mx-auto grid max-w-container gap-10 px-5 md:px-10 lg:grid-cols-[1.05fr_0.95fr] lg:px-20">
         <div className="space-y-6">
-          <span className="inline-flex items-center rounded-full border border-white/15 bg-white/10 px-4 py-2 text-label-sm font-semibold uppercase tracking-[0.24em] text-primary-fixed-dim">
-            Be first in the circle
-          </span>
-          <h2 className="max-w-2xl text-display-lg-mobile font-semibold leading-tight text-white md:text-display-lg">
+          <Pill tone="bright">Be first in the circle</Pill>
+          <h2 className="text-balance text-4xl font-semibold leading-tight md:text-6xl">
             Be the first to experience Zirccle
           </h2>
-          <p className="max-w-xl text-body-lg leading-relaxed text-primary-fixed/85">
-            Join the exclusive first-access waitlist and help shape the future of smart personal style.
+          <p className="max-w-xl text-lg leading-8 text-primary-fixed/85">
+            Join the first-access waitlist and help shape a wardrobe app that makes personal style feel calmer, smarter, and easier to use.
           </p>
-
-          <div className="grid gap-4 sm:grid-cols-3">
-            <div className="rounded-[1.5rem] border border-white/10 bg-white/8 p-4 backdrop-blur-md">
-              <div className="text-3xl font-semibold text-white">01</div>
-              <p className="mt-2 text-label-sm uppercase tracking-[0.18em] text-primary-fixed-dim">Private beta</p>
-            </div>
-            <div className="rounded-[1.5rem] border border-white/10 bg-white/8 p-4 backdrop-blur-md">
-              <div className="text-3xl font-semibold text-white">05</div>
-              <p className="mt-2 text-label-sm uppercase tracking-[0.18em] text-primary-fixed-dim">Core journeys</p>
-            </div>
-            <div className="rounded-[1.5rem] border border-white/10 bg-white/8 p-4 backdrop-blur-md">
-              <div className="text-3xl font-semibold text-white">24/7</div>
-              <p className="mt-2 text-label-sm uppercase tracking-[0.18em] text-primary-fixed-dim">Style support</p>
-            </div>
-          </div>
         </div>
-
-        <div className="rounded-[2rem] border border-white/10 bg-white/10 p-5 shadow-[0_30px_80px_rgba(0,0,0,0.16)] backdrop-blur-xl md:p-6">
+        <div className="self-center rounded-2xl border border-white/15 bg-white/10 p-6 backdrop-blur-md">
           <WaitlistForm placement="cta" />
         </div>
       </div>
@@ -319,59 +252,45 @@ export function FinalCta() {
   );
 }
 
-export function ScreenHero({
-  kicker,
-  title,
-  text,
-  image,
-}: {
-  kicker?: string;
-  title: string;
-  text: string;
-  image?: string;
-}) {
+export function SiteFooter() {
   return (
-    <section className="relative overflow-hidden bg-surface-container-low py-24 md:py-32">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(252,170,255,0.12),transparent_30%),linear-gradient(180deg,rgba(255,255,255,0.55),rgba(246,243,242,0.9))]" />
-      <div className="absolute left-1/4 top-0 h-[280px] w-[280px] rounded-full bg-primary-fixed-dim/14 blur-[110px] pointer-events-none" />
-
-      <div className="relative z-10 mx-auto grid max-w-container-max grid-cols-1 items-center gap-12 px-margin-mobile md:px-margin-desktop lg:grid-cols-[0.95fr_1.05fr]">
-        <div className="flex flex-col gap-6">
-          {kicker && (
-            <span className="text-label-sm font-semibold uppercase tracking-[0.24em] text-primary">
-              {kicker}
-            </span>
-          )}
-          <h1 className="max-w-xl text-display-lg-mobile font-semibold leading-tight text-primary md:text-display-lg">
-            {title}
-          </h1>
-          <p className="max-w-lg text-body-lg leading-relaxed text-on-surface-variant">
-            {text}
+    <footer className="border-t border-outline-variant bg-surface-container-low py-12">
+      <div className="mx-auto grid max-w-container gap-10 px-5 md:px-10 lg:grid-cols-[1.15fr_0.7fr_0.7fr_1.05fr] lg:px-20">
+        <div className="space-y-4">
+          <BrandLogo />
+          <p className="max-w-sm text-base leading-7 text-muted-strong">
+            Intelligent style, curated from what you own. Discover your wardrobe in motion.
           </p>
         </div>
-
-        {image && (
-          <div className="flex justify-center lg:justify-end">
-            <div className="w-full max-w-[520px] space-y-4">
-              <div className="relative overflow-hidden rounded-[2.25rem] border border-outline-variant/35 bg-white/90 p-3 shadow-[0_24px_64px_rgba(89,17,98,0.12)] backdrop-blur-md">
-                <div className="relative w-full">
-                  <Image className="aspect-[9/18] w-full rounded-[1.5rem] object-cover" src={image} alt={title} width={540} height={1080} />
-                </div>
-              </div>
-              <div className="grid gap-3 sm:grid-cols-2">
-                <div className="rounded-[1.5rem] border border-outline-variant/35 bg-white/84 p-4 shadow-[0_14px_34px_rgba(89,17,98,0.08)] backdrop-blur-md">
-                  <p className="text-label-sm font-semibold uppercase tracking-[0.18em] text-primary">AI assisted</p>
-                  <p className="mt-2 text-body-md leading-relaxed text-on-surface-variant">Suggestions stay focused on what you own.</p>
-                </div>
-                <div className="rounded-[1.5rem] border border-outline-variant/35 bg-white/84 p-4 shadow-[0_14px_34px_rgba(89,17,98,0.08)] backdrop-blur-md">
-                  <p className="text-label-sm font-semibold uppercase tracking-[0.18em] text-primary">Calendar ready</p>
-                  <p className="mt-2 text-body-md leading-relaxed text-on-surface-variant">Outfits are framed around real plans.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
+        <FooterLinks title="Product" links={[["Features", "/features"], ["How it works", "/how-it-works"], ["Wardrobe app", "/wardrobe-app"]]} />
+        <FooterLinks title="Company" links={[["About", "/about"], ["Contact", "/contact"]]} />
+        <div className="space-y-4">
+          <h3 className="text-sm font-bold uppercase tracking-[0.18em] text-primary">Stay in the loop</h3>
+          <WaitlistForm placement="footer" />
+        </div>
       </div>
-    </section>
+      <div className="mx-auto mt-10 flex max-w-container flex-col gap-4 border-t border-outline-variant px-5 pt-6 text-sm font-medium text-muted-strong md:px-10 lg:flex-row lg:items-center lg:justify-between lg:px-20">
+        <span>&copy; {new Date().getFullYear()} Zirccle. All rights reserved.</span>
+        <div className="flex gap-6">
+          <Link href="/privacy-policy" className="hover:text-primary">Privacy Policy</Link>
+          <Link href="/terms-of-service" className="hover:text-primary">Terms of Service</Link>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+function FooterLinks({ title, links }: { title: string; links: [string, string][] }) {
+  return (
+    <div>
+      <h3 className="mb-4 text-sm font-bold uppercase tracking-[0.18em] text-primary">{title}</h3>
+      <div className="flex flex-col gap-3 text-base text-muted-strong">
+        {links.map(([label, href]) => (
+          <Link className="transition hover:text-primary" href={href} key={href}>
+            {label}
+          </Link>
+        ))}
+      </div>
+    </div>
   );
 }
