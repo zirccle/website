@@ -1,4 +1,10 @@
+import type { Metadata } from "next";
 import { PageShell, Pill, WaitlistForm } from "../site-components";
+
+export const metadata: Metadata = {
+  title: "Contact | Zirccle",
+  description: "Reach the Zirccle team for support, partnerships, feedback, or early access.",
+};
 
 export default function ContactPage() {
   return (
@@ -26,7 +32,7 @@ export default function ContactPage() {
 
             <article className="rounded-3xl bg-surface-container-low p-8 shadow-soft">
               <p className="text-sm font-semibold uppercase tracking-[0.12em] text-primary">Get first access</p>
-              <WaitlistForm />
+              <WaitlistForm placement="footer" />
             </article>
           </div>
         </div>

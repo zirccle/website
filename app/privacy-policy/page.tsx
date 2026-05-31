@@ -1,5 +1,11 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { PageShell, Pill } from "../site-components";
+
+export const metadata: Metadata = {
+  title: "Privacy Policy | Zirccle",
+  description: "Read how Zirccle handles your data, emails, and account information.",
+};
 
 const sections = [
   ["Introduction", "Welcome to Zirccle. We value your privacy and are committed to protecting personal data when you visit our website or join the waitlist."],
@@ -12,7 +18,7 @@ const sections = [
 export default function PrivacyPolicyPage() {
   return (
     <PageShell>
-      <section className="pt-28">
+      <section className="pt-12 md:pt-16">
         <div className="mx-auto max-w-container px-5 py-16 md:px-10 lg:px-20">
           <div className="max-w-3xl">
             <Pill>Legal</Pill>
