@@ -1,5 +1,11 @@
+import type { Metadata } from "next";
 import { featureCards, images } from "../screen-data";
 import { FinalCta, ImageFrame, PageShell, Pill, SectionHeader } from "../site-components";
+
+export const metadata: Metadata = {
+  title: "Wardrobe App | Zirccle",
+  description: "Explore the Zirccle wardrobe app experience and its mobile-first styling flow.",
+};
 
 export default function WardrobeAppPage() {
   return (
@@ -16,7 +22,7 @@ export default function WardrobeAppPage() {
             </p>
           </div>
           <div className="mx-auto w-full max-w-[420px] rounded-[2.5rem] border-[10px] border-on-surface bg-white p-3 shadow-strong">
-            <ImageFrame className="aspect-[9/19] rounded-[1.9rem] shadow-none" priority src={images.styleSuggestion} alt="Zirccle app interface" />
+            <ImageFrame className="aspect-[9/19] rounded-[1.9rem] shadow-none" priority sizes="(min-width: 1024px) 28vw, 80vw" src={images.styleSuggestion} alt="Zirccle app interface" />
           </div>
         </div>
       </section>
@@ -27,7 +33,7 @@ export default function WardrobeAppPage() {
           <div className="mt-12 grid gap-6 md:grid-cols-3">
             {featureCards.map((card) => (
               <article className="rounded-3xl bg-white p-6 shadow-soft" key={card.title}>
-                <ImageFrame className="aspect-[4/3] rounded-2xl shadow-sm" src={card.image} alt={card.title} />
+                <ImageFrame className="aspect-[4/3] rounded-2xl shadow-sm" sizes="(min-width: 1024px) 28vw, 100vw" src={card.image} alt={card.title} />
                 <h2 className="mt-6 text-2xl font-semibold text-primary">{card.title}</h2>
                 <p className="mt-3 text-base leading-7 text-muted-strong">{card.text}</p>
               </article>

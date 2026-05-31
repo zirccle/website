@@ -1,5 +1,11 @@
+import type { Metadata } from "next";
 import { images } from "../screen-data";
 import { FinalCta, ImageFrame, PageShell, Pill, SectionHeader } from "../site-components";
+
+export const metadata: Metadata = {
+  title: "Features | Zirccle",
+  description: "See how Zirccle captures your wardrobe, suggests outfits, and helps you plan ahead.",
+};
 
 const benefits = [
   ["One-tap digitization", "Upload entire outfits in minutes with multi-photo processing."],
@@ -27,16 +33,16 @@ export default function FeaturesPage() {
               Zirccle combines advanced AI with intuitive design to help you digitize, organize, and plan your style effortlessly.
             </p>
           </div>
-          <ImageFrame className="mt-14 h-[360px] rounded-2xl md:h-[600px]" priority src={images.featuresHero} alt="Zirccle wardrobe experience" />
+          <ImageFrame className="mt-14 h-[360px] rounded-2xl md:h-[600px]" priority sizes="(min-width: 1280px) 1120px, (min-width: 1024px) calc(100vw - 10rem), calc(100vw - 2.5rem)" src={images.featuresHero} alt="Zirccle wardrobe experience" />
         </div>
       </section>
 
       <section className="py-20" id="smart-wardrobe">
         <div className="mx-auto grid max-w-container items-center gap-10 px-5 md:px-10 lg:grid-cols-[0.92fr_1.08fr] lg:px-20">
           <article className="rounded-3xl bg-surface-container-low p-6 shadow-soft">
-            <ImageFrame className="aspect-square rounded-xl shadow-sm" src={images.wardrobeCapture} alt="Digitizing wardrobe" />
+            <ImageFrame className="aspect-square rounded-xl shadow-sm" sizes="(min-width: 1024px) 40vw, 100vw" src={images.wardrobeCapture} alt="Digitizing wardrobe" />
             <div className="mt-6 flex items-center gap-4">
-              <span className="flex h-12 w-12 items-center justify-center rounded-full bg-surface-dim text-primary">✓</span>
+              <span className="flex size-12 items-center justify-center rounded-full bg-surface-dim text-primary">✓</span>
               <span className="text-sm font-semibold uppercase tracking-[0.05em] text-muted-strong">Instant AI background removal</span>
             </div>
           </article>
@@ -59,11 +65,10 @@ export default function FeaturesPage() {
           <SectionHeader centered label="AI style suggestions" title="Your personal stylist, available 24/7." text="Get recommendations based on your unique style profile, daily schedule, local weather, and the clothes already in your closet." />
           <div className="mt-14 grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
             <div className="relative overflow-hidden rounded-3xl bg-white p-4 shadow-strong">
-              <ImageFrame className="h-[520px] rounded-2xl shadow-none" src={images.styleSuggestion} alt="Style suggestion" />
-              <div className="absolute bottom-8 left-8 max-w-sm rounded-2xl border border-white/30 bg-primary-container/10 p-6 shadow-strong backdrop-blur-md">
-                <div className="mb-16 h-8 w-56 rounded-full bg-primary/20" />
-                <h3 className="text-2xl font-medium text-primary">Dynamic outfit generation</h3>
-                <p className="mt-2 text-base text-muted-strong">Mix and match what you already own.</p>
+              <ImageFrame priority className="h-[520px] rounded-2xl shadow-none" sizes="(min-width: 1024px) 52vw, 100vw" src={images.styleSuggestion} alt="Style suggestion" />
+              <div className="absolute bottom-8 left-8 z-10 max-w-md rounded-[28px] border border-white/70 bg-white/82 p-7 shadow-[0_24px_60px_rgba(89,17,98,0.12)] backdrop-blur-xl">
+                <h3 className="text-3xl font-medium tracking-tight text-primary">Dynamic outfit generation</h3>
+                <p className="mt-3 max-w-sm text-base leading-7 text-muted-strong">Mix and match what you already own.</p>
               </div>
             </div>
             <div className="grid gap-6">
@@ -78,7 +83,7 @@ export default function FeaturesPage() {
       <section className="py-20" id="plan-confidence">
         <div className="mx-auto grid max-w-container items-center gap-10 px-5 md:px-10 lg:grid-cols-[0.9fr_1.1fr] lg:px-20">
           <SectionHeader label="Plan with confidence" title="Map out your week before it starts." text="The visual calendar keeps your looks, weather, and events aligned so mornings become a check-in instead of a decision tree." />
-          <ImageFrame className="h-[520px] rounded-2xl" src={images.calendarPlanning} alt="Calendar planning view" />
+          <ImageFrame className="h-[520px] rounded-2xl" sizes="(min-width: 1024px) 52vw, 100vw" src={images.calendarPlanning} alt="Calendar planning view" />
         </div>
       </section>
 

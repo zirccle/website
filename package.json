@@ -11,9 +11,14 @@
     "doctor": "npx react-doctor@latest"
   },
   "dependencies": {
+    "@fontsource/material-symbols-outlined": "^5.2.45",
+    "@tabler/icons-react": "^3.44.0",
+    "@types/nodemailer": "^8.0.0",
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0",
+    "googleapis": "^173.0.0",
     "next": "16.2.6",
+    "nodemailer": "^8.0.9",
     "react": "19.2.1",
     "react-dom": "19.2.1"
   },

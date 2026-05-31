@@ -1,5 +1,11 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { PageShell, Pill } from "../site-components";
+
+export const metadata: Metadata = {
+  title: "Terms of Service | Zirccle",
+  description: "Review the terms that govern use of Zirccle and its early access experiences.",
+};
 
 const terms = [
   ["Acceptance of terms", "By accessing or using Zirccle, you agree to these terms. If you do not agree, you may not use the service."],
@@ -11,7 +17,7 @@ const terms = [
 export default function TermsOfServicePage() {
   return (
     <PageShell>
-      <section className="pt-28">
+      <section className="pt-12 md:pt-16">
         <div className="mx-auto max-w-container px-5 py-16 md:px-10 lg:px-20">
           <div className="max-w-3xl">
             <Pill>Agreement</Pill>

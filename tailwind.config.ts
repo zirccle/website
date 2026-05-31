@@ -113,6 +113,7 @@ const config: Config = {
       },
       fontFamily: {
         manrope: ["Manrope", "sans-serif"],
+        pompei: ["Pompei", "serif"],
       },
     },
   },
