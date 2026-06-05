@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { PageShell, Pill } from "../site-components";
+import { PageShell, Pill } from "../../site-components";
 import Link from "next/link";
 
 export const metadata: Metadata = {
