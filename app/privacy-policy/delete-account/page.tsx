@@ -35,7 +35,7 @@ export default function DeleteAccountPage() {
                 <h2 className="text-2xl font-semibold text-primary">How to request deletion</h2>
                 <ol className="mt-3 list-decimal pl-6 text-base leading-7 text-muted-strong">
                   <li>Sign in to the Zirccle app (or include the email you used to register when contacting us).</li>
-                  <li>Email privacy@zirccle.com with the subject: "Account deletion request" and include your account email and a short confirmation that you authorize deletion.</li>
+                  <li>Email admin@zirccle.com with the subject: "Account deletion request" and include your account email and a short confirmation that you authorize deletion.</li>
                   <li>We will verify ownership of the account and process the deletion within 30 days. You will receive a confirmation when the deletion completes.</li>
                 </ol>
               </section>

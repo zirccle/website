@@ -50,7 +50,7 @@ const sections = [
   ],
   [
     "Contact Us",
-    "If you have questions or requests regarding this Privacy Policy, contact Zirccle at privacy@zirccle.com.",
+    "If you have questions or requests regarding this Privacy Policy, contact Zirccle at admin@zirccle.com.",
   ],
 ];
 
