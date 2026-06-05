@@ -23,3 +23,5 @@ pnpm-debug.log*
 
 # Local server-side data (waitlist, etc.)
 .data/
+.vercel
+.env*
