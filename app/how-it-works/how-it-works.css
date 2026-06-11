@@ -1,0 +1,189 @@
+/* Scoped stylesheet for Zirccle How It Works section */
+
+#how-it-works {
+  overflow: visible;
+}
+
+/* ─── GIF FRAME (light, for HowItWorks lilac bg on desktop) ────────── */
+.gif-frame-light {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid rgba(167, 139, 250, 0.25);
+  border-radius: 20px;
+  padding: 8px;
+  box-shadow:
+    0 8px 40px rgba(124, 58, 237, 0.10),
+    0 2px 12px rgba(124, 58, 237, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.gif-frame-light video,
+.gif-frame-light img {
+  width: 100%;
+  border-radius: 12px;
+  display: block;
+}
+
+.hiw-mobile-badge-step,
+.hiw-mobile-desc-step,
+.hiw-mobile-only {
+  display: none;
+}
+
+/* Responsive / Mobile styles (Max Width: 768px) */
+@media (max-width: 768px) {
+
+  /* Ensure the scroll track height and sticky container are active */
+  #how-it-works {
+    height: 500vh !important;
+    overflow: visible !important;
+  }
+
+  .hiw-desktop-sticky {
+    display: flex !important;
+    position: sticky !important;
+    top: 0 !important;
+    height: 100vh !important;
+    overflow: hidden !important;
+  }
+
+  /* One column flex wrapper */
+  .hiw-content-wrapper {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 16px !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Hide left step navigator */
+  .hiw-navigator {
+    display: none !important;
+  }
+
+  .hiw-panels {
+    width: 100% !important;
+    min-height: 80vh !important;
+    flex: 1 !important;
+    position: relative !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+
+  /* Stack step elements vertically inside the active panel */
+  .hiw-panel {
+    position: absolute !important;
+    inset: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 8px !important;
+    text-align: center !important;
+    width: 100% !important;
+    height: 100% !important;
+    padding: 0 12px !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Show Badge, Title, and Description on mobile inside panel */
+  .hiw-mobile-badge-step {
+    display: inline-block !important;
+    order: 1 !important;
+    /* Display first */
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.45), rgba(207, 168, 232, 0.25)) !important;
+    border: 1px solid rgba(255, 255, 255, 0.55) !important;
+    border-radius: 999px !important;
+    padding: 5px 14px !important;
+    font-size: 10px !important;
+    letter-spacing: 0.15em !important;
+    color: #6B1E7A !important;
+    text-transform: uppercase !important;
+    font-family: "DM Sans", sans-serif !important;
+    font-weight: 600 !important;
+    width: fit-content !important;
+    margin-bottom: 2px !important;
+  }
+
+  .hiw-panel-title {
+    display: block !important;
+    order: 2 !important;
+    /* Display second */
+    font-family: "DM Serif Display", serif !important;
+    font-style: italic !important;
+    font-size: 2.5rem !important;
+    font-weight: normal !important;
+    color: #2A0B3D !important;
+    line-height: 1.1 !important;
+    margin: 0 !important;
+  }
+
+  .hiw-mobile-desc-step {
+    display: block !important;
+    order: 3 !important;
+    /* Display third */
+    font-family: "DM Sans", sans-serif !important;
+    font-size: 1.08rem !important;
+    line-height: 1.65 !important;
+    color: #5A2070 !important;
+    max-width: 92% !important;
+    margin: 2px auto 0 !important;
+  }
+
+  /* Video card — Displayed last, occupying 94% width, no cropping */
+  .hiw-panel .gif-frame-light {
+    order: 4 !important;
+    /* Display fourth */
+    width: 94% !important;
+    max-width: 500px !important;
+    aspect-ratio: auto !important;
+    height: auto !important;
+    padding: 6px !important;
+    border-radius: 16px !important;
+    background: rgba(255, 255, 255, 0.6) !important;
+    border: 1px solid rgba(167, 139, 250, 0.22) !important;
+    box-shadow: 0 8px 32px rgba(124, 58, 237, 0.08) !important;
+    display: block !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    margin-top: 6px !important;
+  }
+
+  .hiw-panel .gif-frame-light video {
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: auto !important;
+    object-fit: contain !important;
+    border-radius: 12px !important;
+    display: block !important;
+  }
+
+  /* Hide watermark on mobile to increase density and focus on the visual card */
+  .hiw-ghost-watermark {
+    display: none !important;
+  }
+
+  .hiw-banner {
+    padding-top: 80px !important;
+    padding-bottom: 40px !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  .hiw-banner h2 {
+    font-size: 2.2rem !important;
+  }
+
+  /* GPU acceleration for performance (eliminating repaint lag) */
+  .hiw-panel,
+  .hiw-nav-row,
+  .hiw-nav-bar {
+    will-change: transform, opacity;
+  }
+}

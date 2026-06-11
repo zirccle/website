@@ -3,8 +3,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FormEvent, ReactNode, useEffect, useState, useSyncExternalStore } from "react";
+import { FormEvent, ReactNode, useEffect, useRef, useState } from "react";
 import { IconBrandInstagram } from "@tabler/icons-react";
+import { Mail, CheckCircle } from "lucide-react";
+
 
 const navLinks = [
   { href: "/features", label: "Features" },
@@ -22,6 +24,7 @@ function BrandLogo() {
         height={360}
         style={{ width: "auto", height: "3rem" }}
         className="drop-shadow-[0_1px_1px_rgba(0,0,0,0.08)] sm:h-14"
+        priority
       />
     </div>
   );
@@ -29,21 +32,24 @@ function BrandLogo() {
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
-  const hash = useSyncExternalStore(
-    (onStoreChange) => {
-      window.addEventListener("hashchange", onStoreChange);
-      return () => window.removeEventListener("hashchange", onStoreChange);
-    },
-    () => window.location.hash,
-    () => ""
-  );
   const [visible, setVisible] = useState(true);
   const pathname = usePathname();
+
+  const openRef = useRef(open);
+  useEffect(() => {
+    openRef.current = open;
+  }, [open]);
+
+  // Reactively close mobile drawer when route changes
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
 
   useEffect(() => {
     let previousScrollY = window.scrollY;
 
     const handleScroll = () => {
+      if (openRef.current) return;
       const currentScrollY = window.scrollY;
 
       if (currentScrollY < 24) {
@@ -67,7 +73,7 @@ export function SiteHeader() {
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 border-b border-black/5 bg-white/96 shadow-[0_10px_30px_rgba(89,17,98,0.08)] backdrop-blur-xl transition-all duration-300 ease-out ${
-        visible ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"
+        visible || open ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"
       }`}
     >
       <div className="mx-auto flex h-20 max-w-container items-center justify-between px-5 md:px-10 lg:px-20">
@@ -77,8 +83,7 @@ export function SiteHeader() {
 
         <nav className="hidden items-center gap-8 md:flex" aria-label="Primary navigation">
           {navLinks.map((link) => {
-            const [linkPath, linkHash] = link.href.split("#");
-            const isActive = linkPath === pathname && (!linkHash || hash === `#${linkHash}`);
+            const isActive = link.href === pathname;
             return (
               <Link
                 key={link.href}
@@ -117,7 +122,6 @@ export function SiteHeader() {
               <Link
                 key={link.href}
                 href={link.href}
-                onClick={() => setOpen(false)}
                 className="rounded-lg p-3 text-base font-medium text-muted-strong hover:bg-surface-container-low hover:text-primary"
               >
                 {link.label}
@@ -126,7 +130,6 @@ export function SiteHeader() {
             <Link
               className="mt-2 rounded-lg bg-primary px-4 py-3 text-center text-base font-medium text-white"
               href="/contact"
-              onClick={() => setOpen(false)}
             >
               Get first access
             </Link>
@@ -136,6 +139,7 @@ export function SiteHeader() {
     </header>
   );
 }
+
 
 export function WaitlistForm({ placement = "hero" }: { placement?: "hero" | "footer" | "cta" }) {
   const [email, setEmail] = useState("");
@@ -286,25 +290,167 @@ export function SectionHeader({
 }
 
 export function FinalCta() {
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [inputError, setInputError] = useState(false);
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!email || !email.includes("@")) {
+      setInputError(true);
+      setTimeout(() => setInputError(false), 500);
+      return;
+    }
+
+    setStatus("loading");
+
+    try {
+      const sanitizedEmail = email.trim();
+      const response = await fetch("/api/waitlist", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: sanitizedEmail, source: "zirccle-contact" }),
+      });
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        throw new Error(data.error || "Waitlist request failed");
+      }
+
+      setEmail("");
+      setStatus("success");
+    } catch (error) {
+      setStatus("error");
+    }
+  };
+
   return (
-    <section className="bg-primary py-20 text-white md:py-24">
-      <div className="mx-auto grid max-w-container gap-10 px-5 md:px-10 lg:grid-cols-[1.05fr_0.95fr] lg:px-20">
-        <div className="space-y-6">
-          <Pill tone="bright">Be first in the circle</Pill>
-          <h2 className="text-balance text-4xl font-semibold leading-tight md:text-6xl">
-            Be the first to experience Zirccle
+    <section id="contact" className="w-full bg-[#EDE8F8] box-border relative z-30">
+      <style>{`
+        @keyframes shake {
+          0%, 100% { transform: translateX(0); }
+          25%      { transform: translateX(-5px); }
+          75%      { transform: translateX(5px); }
+        }
+        .animate-shake {
+          animation: shake 0.3s ease-in-out;
+        }
+        .contact-wrap input::placeholder { color: rgba(26,12,30,0.38); }
+      `}</style>
+
+      <div className="contact-wrap grid grid-cols-1 md:grid-cols-[42%_58%] min-h-screen w-full bg-[#EDE8F8] box-border">
+        {/* ─── LEFT: all content ─── */}
+        <div className="contact-content-col flex flex-col justify-center order-1 md:order-none py-16 px-5 md:py-24 md:pr-[6%] md:pl-[12%] lg:pl-[15%] xl:pl-[18%] box-border">
+          {/* Badge */}
+          <div className="inline-flex items-center gap-[7px] bg-[rgba(105,36,117,0.07)] border border-[rgba(105,36,117,0.20)] text-[#692475] rounded-[100px] px-4 py-[7px] text-xs font-bold tracking-[0.18em] uppercase mb-[26px] font-sans w-fit">
+            <span className="w-[7px] h-[7px] rounded-full bg-[#692475] inline-block shrink-0" />
+            Contact
+          </div>
+
+          {/* Heading — large */}
+          <h2 className="contact-heading font-serif text-[clamp(2.5rem,5vw,4.6rem)] font-bold text-[#1A0C1E] mb-[22px] leading-[1.08] tracking-tight">
+            Reach Zirccle<br />directly.
           </h2>
-          <p className="max-w-xl text-lg leading-8 text-primary-fixed/85">
-            Join the first-access waitlist and help shape a wardrobe app that makes personal style feel calmer, smarter, and easier to use.
+
+          {/* Description */}
+          <p className="contact-desc font-sans text-base md:text-[1.15rem] leading-[1.72] text-[rgba(26,12,30,0.62)] mb-[28px] max-w-[440px]">
+            For support, partnerships, product feedback, or launch coordination, email the team directly or join the first-access list.
           </p>
+
+          {/* Email row */}
+          <div className="flex items-center gap-[14px] mb-[10px]">
+            <div className="w-[48px] h-[48px] rounded-full bg-[rgba(105,36,117,0.09)] flex items-center justify-center text-[#692475] shrink-0">
+              <Mail className="w-[20px] h-[20px]" />
+            </div>
+            <div className="flex flex-col">
+              <span className="text-[11px] font-bold tracking-[0.15em] text-[#96699E] uppercase font-sans mb-[3px]">
+                EMAIL
+              </span>
+              <a
+                className="contact-email-link text-[1.4rem] font-bold text-[#692475] hover:text-[#531c5d] transition-colors font-sans no-underline break-all"
+                href="mailto:admin@zirccle.com"
+              >
+                admin@zirccle.com
+              </a>
+            </div>
+          </div>
+
+          {/* Divider */}
+          <hr className="border-none border-t border-[rgba(167,139,250,0.25)] my-[26px] w-full max-w-[440px]" />
+
+          {/* Get First Access */}
+          <div className="w-full max-w-[440px] box-border">
+            <div className="text-[12px] font-bold tracking-[0.16em] text-[#96699E] uppercase font-sans mb-[14px]">
+              Get First Access
+            </div>
+
+            {status === "success" ? (
+              <div className="py-[12px]">
+                <div className="flex items-center gap-[8px] mb-[8px]">
+                  <CheckCircle className="text-[#22C55E] w-[20px] h-[20px]" />
+                  <span className="font-sans text-[#1A0C1E] text-[1.1rem] font-bold">
+                    You're on the list!
+                  </span>
+                </div>
+                <p className="font-sans text-[rgba(26,12,30,0.6)] m-0 text-[0.95rem] leading-[1.5]">
+                  We'll email you as soon as early access spots open up.
+                </p>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="m-0 p-0">
+                {/* Input */}
+                <div className="relative w-full mb-[12px]">
+                  <Mail className="absolute left-[15px] top-1/2 -translate-y-1/2 text-[rgba(26,12,30,0.32)] w-[19px] h-[19px] pointer-events-none" />
+                  <input
+                    type="email"
+                    placeholder="Enter your email address"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    className={`w-full h-[52px] pl-[46px] pr-[14px] rounded-[11px] border border-[rgba(167,139,250,0.38)] bg-[rgba(255,255,255,0.72)] text-[#1A0C1E] text-base outline-none font-sans box-border transition-colors duration-200 focus:border-[#692475] ${
+                      inputError ? "animate-shake" : ""
+                    }`}
+                  />
+                </div>
+
+                {/* Button */}
+                <button
+                  type="submit"
+                  disabled={status === "loading"}
+                  className="w-full h-[52px] bg-[#692475] hover:bg-[#531c5d] disabled:opacity-50 text-white border-none rounded-[11px] font-semibold text-base cursor-pointer font-sans transition-colors duration-200 flex items-center justify-center gap-[8px]"
+                >
+                  {status === "loading" ? "Joining..." : "Get First Access"}
+                  <span className="text-[1rem]">✦</span>
+                </button>
+
+                <div className="flex items-center gap-[7px] text-[13px] text-[rgba(26,12,30,0.5)] font-sans mt-[13px]">
+                  <CheckCircle className="text-[#692475] w-[14px] h-[14px] shrink-0" />
+                  <span>No spam. Just early access updates.</span>
+                </div>
+              </form>
+            )}
+          </div>
         </div>
-        <div className="self-center rounded-2xl border border-white/15 bg-white/10 p-6 backdrop-blur-md">
-          <WaitlistForm placement="cta" />
+
+        {/* ─── RIGHT: Image Asset ─── */}
+        <div className="contact-img-col relative h-[50vw] min-h-[220px] max-h-[360px] md:h-screen md:max-h-none overflow-hidden bg-[#EDE8F8] order-2 md:order-none">
+          <Image
+            src="/images/contact.png"
+            alt="Zirccle Wardrobe"
+            fill
+            sizes="(min-width: 768px) 58vw, 100vw"
+            priority
+            className="object-cover object-center"
+          />
+
+          {/* Gradient overlay to smoothly blend the image edge with the left column */}
+          <div className="absolute inset-y-0 left-0 w-[18%] bg-gradient-to-r from-[#EDE8F8] to-transparent pointer-events-none z-10 hidden md:block" />
         </div>
       </div>
     </section>
   );
 }
+
 
 export function SiteFooter() {
   const currentYear = new Date().getFullYear();

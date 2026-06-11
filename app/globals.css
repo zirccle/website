@@ -1,6 +1,107 @@
 @import "tailwindcss";
-@config "../tailwind.config.ts";
 @import "@fontsource/material-symbols-outlined";
+
+@theme {
+  --color-muted-strong: #4f434e;
+  --color-primary: #591162;
+  --color-primary-container: #732c7b;
+  --color-primary-fixed: #ffd6fc;
+  --color-primary-fixed-dim: #fcaaff;
+  --color-primary-glow: #fcaaff;
+  
+  --color-background: #fcf9f8;
+  
+  --color-surface: #fcf9f8;
+  --color-surface-dim: #dcd9d9;
+  --color-surface-bright: #fcf9f8;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f6f3f2;
+  --color-surface-container: #f0eded;
+  --color-surface-container-high: #eae7e7;
+  --color-surface-container-highest: #e5e2e1;
+  --color-surface-tint: #8a4191;
+  --color-surface-variant: #e5e2e1;
+
+  --color-on-background: #1c1b1b;
+  --color-on-surface: #1c1b1b;
+  --color-on-surface-variant: #4f434e;
+  
+  --color-on-primary: #ffffff;
+  --color-on-primary-container: #f09df4;
+  --color-on-primary-fixed: #36003e;
+  --color-on-primary-fixed-variant: #6f2877;
+
+  --color-on-secondary: #ffffff;
+  --color-on-secondary-container: #656369;
+  --color-on-secondary-fixed: #1c1b1f;
+  --color-on-secondary-fixed-variant: #47464b;
+
+  --color-on-tertiary: #ffffff;
+  --color-on-tertiary-container: #cdb1d2;
+  --color-on-tertiary-fixed: #27142d;
+  --color-on-tertiary-fixed-variant: #553f5a;
+
+  --color-secondary: #5f5e63;
+  --color-secondary-container: #e5e1e7;
+  --color-secondary-fixed: #e5e1e7;
+  --color-secondary-fixed-dim: #c8c5cb;
+
+  --color-tertiary: #412d46;
+  --color-tertiary-container: #59435e;
+  --color-tertiary-fixed: #f7d9fb;
+  --color-tertiary-fixed-dim: #dabdde;
+
+  --color-error: #ba1a1a;
+  --color-error-container: #ffdad6;
+
+  --color-outline: #81737f;
+  --color-outline-variant: #d3c2cf;
+
+  --radius-default: 0.25rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-2xl: 1rem;
+  --radius-3xl: 1.5rem;
+
+  --spacing-margin-desktop: 64px;
+  --spacing-margin-mobile: 20px;
+  --spacing-section-gap: 72px;
+  --spacing-stack-sm: 8px;
+  --spacing-stack-md: 16px;
+  --spacing-stack-lg: 32px;
+  --spacing-gutter: 24px;
+  --spacing-container-max: 1280px;
+
+  --max-width-container: 1280px;
+
+  --shadow-soft: 0 4px 20px rgba(115, 44, 123, 0.05);
+  --shadow-strong: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+
+  --font-size-body-md: 1rem;
+  --font-size-body-md--line-height: 1.6;
+
+  --font-size-body-lg: 1.125rem;
+  --font-size-body-lg--line-height: 1.6;
+
+  --font-size-label-sm: 0.875rem;
+  --font-size-label-sm--line-height: 1;
+
+  --font-size-headline-sm: 1.5rem;
+  --font-size-headline-sm--line-height: 1.3;
+
+  --font-size-headline-md: 2.5rem;
+  --font-size-headline-md--line-height: 1.12;
+
+  --font-size-display-lg-mobile: 3rem;
+  --font-size-display-lg-mobile--line-height: 1.08;
+
+  --font-size-display-lg: 4rem;
+  --font-size-display-lg--line-height: 1.1;
+
+  --font-manrope: "Manrope", sans-serif;
+  --font-pompei: "Pompei", serif;
+}
+
 
 @font-face {
   font-family: 'Pompei';
