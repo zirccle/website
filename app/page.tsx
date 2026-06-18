@@ -23,7 +23,7 @@ export default function Home() {
             <WaitlistForm />
           </div>
 
-          <div className="relative min-h-[420px]">
+          <div className="relative min-h-[clamp(320px,45vh,450px)]">
             <div className="absolute inset-[0_18%_20%_0] overflow-hidden rounded-2xl">
               <ImageFrame
                 className="h-full w-full rounded-2xl"

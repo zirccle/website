@@ -213,7 +213,7 @@ export default function HowItWorksSection() {
       ref={sectionRef}
       style={{
         position: "relative",
-        height: `${steps.length * 100}vh`,
+        height: `${steps.length * 100}dvh`,
         marginTop: "0",
         zIndex: 1,
         background: C.bg,
@@ -234,7 +234,7 @@ export default function HowItWorksSection() {
             fontSize: "10px",
             letterSpacing: "0.25em",
             color: "#CFA8E8",
-            fontFamily: '"DM Sans", sans-serif',
+            fontFamily: 'var(--font-dm-sans), sans-serif',
             fontWeight: 600,
             textTransform: "uppercase",
             marginBottom: "16px",
@@ -244,7 +244,7 @@ export default function HowItWorksSection() {
         </div>
         <h2
           style={{
-            fontFamily: '"Playfair Display", serif',
+            fontFamily: 'var(--font-playfair-display), serif',
             fontSize: "clamp(2.2rem, 4vw, 3.2rem)",
             color: "#3B1049",
             margin: "0 auto 20px",
@@ -273,7 +273,7 @@ export default function HowItWorksSection() {
         style={{
           position: "sticky",
           top: 0,
-          height: "100vh",
+          height: "100dvh",
           overflow: "hidden",
           display: "flex",
           alignItems: "center",
@@ -305,7 +305,7 @@ export default function HowItWorksSection() {
             transform: "translateX(-50%)",
             fontSize: "10px",
             letterSpacing: "0.25em",
-            fontFamily: '"DM Sans", sans-serif',
+            fontFamily: 'var(--font-dm-sans), sans-serif',
             fontWeight: 600,
             color: "#CFA8E8",
             textTransform: "uppercase",
@@ -324,7 +324,7 @@ export default function HowItWorksSection() {
             position: "absolute",
             top: "-40px",
             left: "-40px",
-            fontFamily: '"DM Serif Display", serif',
+            fontFamily: 'var(--font-dm-serif-display), serif',
             fontSize: "14rem",
             color: C.ghostNum,
             lineHeight: 1,
@@ -392,7 +392,7 @@ export default function HowItWorksSection() {
                     letterSpacing: "0.15em",
                     color: C.accent,
                     textTransform: "uppercase",
-                    fontFamily: '"DM Sans", sans-serif',
+                    fontFamily: 'var(--font-dm-sans), sans-serif',
                     fontWeight: 600,
                     backdropFilter: "blur(8px)",
                     boxShadow: "0 2px 8px rgba(107,30,122,0.08), inset 0 1px 0 rgba(255,255,255,0.6)",
@@ -406,7 +406,7 @@ export default function HowItWorksSection() {
                 <h2
                   className="hiw-step-title"
                   style={{
-                    fontFamily: '"DM Serif Display", serif',
+                    fontFamily: 'var(--font-dm-serif-display), serif',
                     fontStyle: "italic",
                     fontSize: "clamp(1.5rem, 2.2vw, 2.1rem)",
                     color: C.headingDark,
@@ -421,7 +421,7 @@ export default function HowItWorksSection() {
                 <p
                   className="hiw-step-desc"
                   style={{
-                    fontFamily: '"DM Sans", sans-serif',
+                    fontFamily: 'var(--font-dm-sans), sans-serif',
                     fontWeight: 400,
                     fontSize: "1rem",
                     color: C.bodyMuted,
@@ -440,7 +440,7 @@ export default function HowItWorksSection() {
             className="hiw-panels"
             style={{
               position: "relative",
-              minHeight: "540px",
+              minHeight: "clamp(450px, 60vh, 580px)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -468,7 +468,7 @@ export default function HowItWorksSection() {
                 <h2
                   className="hiw-panel-title"
                   style={{
-                    fontFamily: '"DM Serif Display", serif',
+                    fontFamily: 'var(--font-dm-serif-display), serif',
                     fontStyle: "italic",
                     fontSize: "clamp(2.4rem, 4vw, 3.8rem)",
                     color: C.headingDark,

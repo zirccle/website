@@ -338,27 +338,27 @@ export function ContactSection() {
         .contact-wrap input::placeholder { color: rgba(26,12,30,0.38); }
       `}</style>
 
-      <div className="contact-wrap grid grid-cols-1 md:grid-cols-[42%_58%] min-h-screen w-full bg-[#EDE8F8] box-border">
+      <div className="contact-wrap grid grid-cols-1 md:grid-cols-[42%_58%] min-h-[100dvh] w-full bg-[#EDE8F8] box-border">
         {/* ─── LEFT: all content ─── */}
-        <div className="contact-content-col flex flex-col justify-center order-1 md:order-none py-16 px-5 md:py-24 md:pr-[6%] md:pl-[12%] lg:pl-[15%] xl:pl-[18%] box-border">
+        <div className="contact-content-col flex flex-col justify-center order-1 md:order-none py-10 px-5 md:py-14 lg:py-16 md:pr-[6%] md:pl-[12%] lg:pl-[15%] xl:pl-[18%] box-border">
           {/* Badge */}
-          <div className="inline-flex items-center gap-[7px] bg-[rgba(105,36,117,0.07)] border border-[rgba(105,36,117,0.20)] text-[#692475] rounded-[100px] px-4 py-[7px] text-xs font-bold tracking-[0.18em] uppercase mb-[26px] font-sans w-fit">
+          <div className="inline-flex items-center gap-[7px] bg-[rgba(105,36,117,0.07)] border border-[rgba(105,36,117,0.20)] text-[#692475] rounded-[100px] px-4 py-[7px] text-xs font-bold tracking-[0.18em] uppercase mb-[18px] font-sans w-fit">
             <span className="w-[7px] h-[7px] rounded-full bg-[#692475] inline-block shrink-0" />
             Contact
           </div>
 
           {/* Heading — large */}
-          <h2 className="contact-heading font-serif text-[clamp(2.5rem,5vw,4.6rem)] font-bold text-[#1A0C1E] mb-[22px] leading-[1.08] tracking-tight">
+          <h2 className="contact-heading font-serif text-[clamp(2.2rem,4vw,3.6rem)] font-bold text-[#1A0C1E] mb-[16px] leading-[1.08] tracking-tight">
             Reach Zirccle<br />directly.
           </h2>
 
           {/* Description */}
-          <p className="contact-desc font-sans text-base md:text-[1.15rem] leading-[1.72] text-[rgba(26,12,30,0.62)] mb-[28px] max-w-[440px]">
+          <p className="contact-desc font-sans text-base md:text-[1.08rem] leading-[1.72] text-[rgba(26,12,30,0.62)] mb-[20px] max-w-[440px]">
             For support, partnerships, product feedback, or launch coordination, email the team directly or join the first-access list.
           </p>
 
           {/* Email row */}
-          <div className="flex items-center gap-[14px] mb-[10px]">
+          <div className="flex items-center gap-[14px] mb-[6px]">
             <div className="w-[48px] h-[48px] rounded-full bg-[rgba(105,36,117,0.09)] flex items-center justify-center text-[#692475] shrink-0">
               <Mail className="w-[20px] h-[20px]" />
             </div>
@@ -376,11 +376,11 @@ export function ContactSection() {
           </div>
 
           {/* Divider */}
-          <hr className="border-none border-t border-[rgba(167,139,250,0.25)] my-[26px] w-full max-w-[440px]" />
+          <hr className="border-none border-t border-[rgba(167,139,250,0.25)] my-[20px] w-full max-w-[440px]" />
 
           {/* Get First Access */}
           <div className="w-full max-w-[440px] box-border">
-            <div className="text-[12px] font-bold tracking-[0.16em] text-[#96699E] uppercase font-sans mb-[14px]">
+            <div className="text-[12px] font-bold tracking-[0.16em] text-[#96699E] uppercase font-sans mb-[10px]">
               Get First Access
             </div>
 
@@ -399,7 +399,7 @@ export function ContactSection() {
             ) : (
               <form onSubmit={handleSubmit} className="m-0 p-0">
                 {/* Input */}
-                <div className="relative w-full mb-[12px]">
+                <div className="relative w-full mb-[10px]">
                   <Mail className="absolute left-[15px] top-1/2 -translate-y-1/2 text-[rgba(26,12,30,0.32)] w-[19px] h-[19px] pointer-events-none" />
                   <input
                     type="email"
@@ -407,7 +407,7 @@ export function ContactSection() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    className={`w-full h-[52px] pl-[46px] pr-[14px] rounded-[11px] border border-[rgba(167,139,250,0.38)] bg-[rgba(255,255,255,0.72)] text-[#1A0C1E] text-base outline-none font-sans box-border transition-colors duration-200 focus:border-[#692475] ${
+                    className={`w-full h-[48px] pl-[46px] pr-[14px] rounded-[11px] border border-[rgba(167,139,250,0.38)] bg-[rgba(255,255,255,0.72)] text-[#1A0C1E] text-base outline-none font-sans box-border transition-colors duration-200 focus:border-[#692475] ${
                       inputError ? "animate-shake" : ""
                     }`}
                   />
@@ -417,13 +417,13 @@ export function ContactSection() {
                 <button
                   type="submit"
                   disabled={status === "loading"}
-                  className="w-full h-[52px] bg-[#692475] hover:bg-[#531c5d] disabled:opacity-50 text-white border-none rounded-[11px] font-semibold text-base cursor-pointer font-sans transition-colors duration-200 flex items-center justify-center gap-[8px]"
+                  className="w-full h-[48px] bg-[#692475] hover:bg-[#531c5d] disabled:opacity-50 text-white border-none rounded-[11px] font-semibold text-base cursor-pointer font-sans transition-colors duration-200 flex items-center justify-center gap-[8px]"
                 >
                   {status === "loading" ? "Joining..." : "Get First Access"}
                   <span className="text-[1rem]">✦</span>
                 </button>
 
-                <div className="flex items-center gap-[7px] text-[13px] text-[rgba(26,12,30,0.5)] font-sans mt-[13px]">
+                <div className="flex items-center gap-[7px] text-[13px] text-[rgba(26,12,30,0.5)] font-sans mt-[10px]">
                   <CheckCircle className="text-[#692475] w-[14px] h-[14px] shrink-0" />
                   <span>No spam. Just early access updates.</span>
                 </div>
@@ -433,7 +433,7 @@ export function ContactSection() {
         </div>
 
         {/* ─── RIGHT: Image Asset ─── */}
-        <div className="contact-img-col relative h-[50vw] min-h-[220px] max-h-[360px] md:h-screen md:max-h-none overflow-hidden bg-[#EDE8F8] order-2 md:order-none">
+        <div className="contact-img-col relative h-[50vw] min-h-[220px] max-h-[360px] md:h-full md:min-h-[100dvh] md:max-h-none overflow-hidden bg-[#EDE8F8] order-2 md:order-none">
           <Image
             src="/images/contact.png"
             alt="Zirccle Wardrobe"
@@ -486,7 +486,8 @@ export function SiteFooter() {
               alt="Zirccle"
               width={1200}
               height={360}
-              style={{ width: "auto", height: "1.78rem" }}
+              style={{ width: "auto", height: "2.3rem" }}
+              className="h-8 sm:h-10"
             />
           </div>
 

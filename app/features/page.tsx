@@ -33,7 +33,7 @@ export default function FeaturesPage() {
               Zirccle combines advanced AI with intuitive design to help you digitize, organize, and plan your style effortlessly.
             </p>
           </div>
-          <ImageFrame className="mt-14 h-[360px] rounded-2xl md:h-[600px]" priority sizes="(min-width: 1280px) 1120px, (min-width: 1024px) calc(100vw - 10rem), calc(100vw - 2.5rem)" src={images.featuresHero} alt="Zirccle wardrobe experience" />
+          <ImageFrame className="mt-14 h-[40vh] min-h-[300px] max-h-[600px] rounded-2xl md:h-[55vh]" priority sizes="(min-width: 1280px) 1120px, (min-width: 1024px) calc(100vw - 10rem), calc(100vw - 2.5rem)" src={images.featuresHero} alt="Zirccle wardrobe experience" />
         </div>
       </section>
 
@@ -65,7 +65,7 @@ export default function FeaturesPage() {
           <SectionHeader centered label="AI style suggestions" title="Your personal stylist, available 24/7." text="Get recommendations based on your unique style profile, daily schedule, local weather, and the clothes already in your closet." />
           <div className="mt-14 grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
             <div className="relative overflow-hidden rounded-3xl bg-white p-4 shadow-strong">
-              <ImageFrame priority className="h-[520px] rounded-2xl shadow-none" sizes="(min-width: 1024px) 52vw, 100vw" src={images.styleSuggestion} alt="Style suggestion" />
+              <ImageFrame priority className="h-[50vh] min-h-[360px] max-h-[520px] rounded-2xl shadow-none" sizes="(min-width: 1024px) 52vw, 100vw" src={images.styleSuggestion} alt="Style suggestion" />
               <div className="absolute bottom-8 left-8 z-10 max-w-md rounded-[28px] border border-white/70 bg-white/82 p-7 shadow-[0_24px_60px_rgba(89,17,98,0.12)] backdrop-blur-xl">
                 <h3 className="text-3xl font-medium tracking-tight text-primary">Dynamic outfit generation</h3>
                 <p className="mt-3 max-w-sm text-base leading-7 text-muted-strong">Mix and match what you already own.</p>
@@ -83,7 +83,7 @@ export default function FeaturesPage() {
       <section className="py-20" id="plan-confidence">
         <div className="mx-auto grid max-w-container items-center gap-10 px-5 md:px-10 lg:grid-cols-[0.9fr_1.1fr] lg:px-20">
           <SectionHeader label="Plan with confidence" title="Map out your week before it starts." text="The visual calendar keeps your looks, weather, and events aligned so mornings become a check-in instead of a decision tree." />
-          <ImageFrame className="h-[520px] rounded-2xl" sizes="(min-width: 1024px) 52vw, 100vw" src={images.calendarPlanning} alt="Calendar planning view" />
+          <ImageFrame className="h-[50vh] min-h-[360px] max-h-[520px] rounded-2xl" sizes="(min-width: 1024px) 52vw, 100vw" src={images.calendarPlanning} alt="Calendar planning view" />
         </div>
       </section>
 

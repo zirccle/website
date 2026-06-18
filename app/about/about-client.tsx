@@ -7,7 +7,6 @@ import { Mail, CheckCircle } from 'lucide-react';
    KEYFRAMES injected once into <head>
 ───────────────────────────────────────────── */
 const GLOBAL_CSS = `
-  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=DM+Sans:wght@400;500;600;700&display=swap');
 
   @keyframes glowPulse {
     0%,100% { filter: drop-shadow(0 0 24px rgba(107,30,122,0.5)); }
@@ -93,7 +92,7 @@ function useOnScreen(ref: React.RefObject<HTMLElement | null>, threshold = 0.3) 
         window.removeEventListener('resize', handleScroll);
       }
     }, { threshold });
-    
+
     obs.observe(ref.current);
 
     return () => {
@@ -138,12 +137,12 @@ function useTyping(text: string, speed: number, triggered: boolean, delay = 0) {
 ───────────────────────────────────────────── */
 function useContinuousTyping(text: string, speed: number, delay = 0) {
   const [display, setDisplay] = useState('');
-  
+
   useEffect(() => {
     let i = 0;
     let isDeleting = false;
     let timeout: NodeJS.Timeout;
-    
+
     const tick = () => {
       if (!isDeleting) {
         i++;
@@ -168,7 +167,7 @@ function useContinuousTyping(text: string, speed: number, delay = 0) {
     timeout = setTimeout(tick, delay);
     return () => clearTimeout(timeout);
   }, [text, speed, delay]);
-  
+
   return display;
 }
 
@@ -186,7 +185,7 @@ function Pill({ children, color = '#CFA8E8', borderColor = 'rgba(207,168,232,0.4
       border: `1px solid ${borderColor}`,
       borderRadius: '999px',
       padding: '6px 16px',
-      fontFamily: '"DM Sans", sans-serif',
+      fontFamily: 'var(--font-dm-sans), sans-serif',
       fontWeight: 700,
       ...style,
     }}>
@@ -207,7 +206,7 @@ function SectionParadox() {
 
   return (
     <section id="about" style={{
-      minHeight: '100vh',
+      minHeight: '100dvh',
       position: 'relative',
       overflow: 'hidden',
       display: 'flex',
@@ -235,7 +234,7 @@ function SectionParadox() {
         <Pill style={{ marginBottom: '24px' }}>THE PARADOX</Pill>
 
         <h1 style={{
-          fontFamily: "'Playfair Display', serif",
+          fontFamily: "var(--font-playfair-display), serif",
           fontStyle: 'italic',
           fontSize: 'clamp(2.4rem,5vw,4rem)',
           color: 'white',
@@ -247,7 +246,7 @@ function SectionParadox() {
         </h1>
 
         <p style={{
-          fontFamily: '"DM Sans", sans-serif',
+          fontFamily: 'var(--font-dm-sans), sans-serif',
           fontSize: '1.1rem',
           color: 'rgba(255,255,255,0.85)',
           lineHeight: 1.7,
@@ -265,7 +264,7 @@ function SectionParadox() {
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 flexShrink: 0, color: '#CFA8E8', fontSize: '11px', fontWeight: 700,
               }}>✓</div>
-              <span style={{ fontFamily: '"DM Sans", sans-serif', fontSize: '1rem', color: 'white', lineHeight: 1.5 }}>
+              <span style={{ fontFamily: 'var(--font-dm-sans), sans-serif', fontSize: '1rem', color: 'white', lineHeight: 1.5 }}>
                 {b}
               </span>
             </div>
@@ -370,7 +369,7 @@ function SectionStory() {
           </Pill>
 
           <h2 className="about-story-headline" style={{
-            fontFamily: "'Playfair Display', serif",
+            fontFamily: "var(--font-playfair-display), serif",
             fontStyle: 'italic',
             fontWeight: 800,
             fontSize: 'clamp(3.2rem, 5vw, 4.6rem)',
@@ -386,7 +385,7 @@ function SectionStory() {
           </h2>
 
           <p className="about-story-body" style={{
-            fontFamily: '"DM Sans", sans-serif',
+            fontFamily: 'var(--font-dm-sans), sans-serif',
             fontWeight: 500,
             fontSize: '1.25rem',
             color: '#3B1049',
@@ -430,7 +429,7 @@ function MVCard({ label, heading, body, delay = 0, triggered }: { label: string,
     }}>
       {/* Label (Continuous typing + bold) */}
       <div style={{
-        fontFamily: '"DM Sans", sans-serif',
+        fontFamily: 'var(--font-dm-sans), sans-serif',
         fontSize: '11px',
         letterSpacing: '0.2em',
         textTransform: 'uppercase',
@@ -445,7 +444,7 @@ function MVCard({ label, heading, body, delay = 0, triggered }: { label: string,
 
       {/* Heading (Static) */}
       <h3 className="about-mv-heading" style={{
-        fontFamily: "'Playfair Display', serif",
+        fontFamily: "var(--font-playfair-display), serif",
         fontStyle: 'italic',
         fontWeight: 700,
         fontSize: '2.4rem',
@@ -461,7 +460,7 @@ function MVCard({ label, heading, body, delay = 0, triggered }: { label: string,
 
       {/* Body */}
       <p style={{
-        fontFamily: '"DM Sans", sans-serif',
+        fontFamily: 'var(--font-dm-sans), sans-serif',
         fontSize: '1rem',
         color: 'rgba(255,255,255,0.8)',
         lineHeight: 1.7,
@@ -526,14 +525,14 @@ const PRINCIPLE_IMAGES = [
   '/images/innovation.png',
   '/images/Conscious luxury.png',
   '/images/Empowerment.png',
-  '/images/Inclusivity.png',
+  '/images/inclusivity.png',
 ];
 
 const PRINCIPLES = [
   { title: 'Rediscover Your Closet', body: 'Unlock outfits and possibilities hidden inside your wardrobe.' },
-  { title: 'Fashion With Purpose',   body: 'Getting more from what you own before buying more.' },
-  { title: 'Dress With Confidence',  body: 'Turning everyday outfit choices into effortless decisions.' },
-  { title: 'Style For Everyone',     body: 'Supporting different tastes, body types, occasions, and lifestyles.' },
+  { title: 'Fashion With Purpose', body: 'Getting more from what you own before buying more.' },
+  { title: 'Dress With Confidence', body: 'Turning everyday outfit choices into effortless decisions.' },
+  { title: 'Style For Everyone', body: 'Supporting different tastes, body types, occasions, and lifestyles.' },
 ];
 
 function PrincipleCard({ title, body, image, staggerDelay, triggered }: { title: string, body: string, image: string, staggerDelay: number, triggered: boolean }) {
@@ -577,7 +576,7 @@ function PrincipleCard({ title, body, image, staggerDelay, triggered }: { title:
       {/* Content */}
       <div style={{ position: 'absolute', bottom: '24px', left: '28px', right: '28px', zIndex: 2 }}>
         <span className="about-principle-title" style={{
-          fontFamily: "'Playfair Display', serif",
+          fontFamily: "var(--font-playfair-display), serif",
           fontStyle: 'italic',
           fontWeight: 700,
           fontSize: '1.8rem',
@@ -590,7 +589,7 @@ function PrincipleCard({ title, body, image, staggerDelay, triggered }: { title:
           {!titleDone && triggered && <span className="about-cursor">|</span>}
         </span>
         <p style={{
-          fontFamily: '"DM Sans", sans-serif',
+          fontFamily: 'var(--font-dm-sans), sans-serif',
           fontSize: '0.9rem',
           color: 'rgba(255,255,255,0.75)',
           lineHeight: 1.5,
@@ -624,7 +623,7 @@ function SectionPrinciples() {
         <div style={{ textAlign: 'center', marginBottom: '60px' }}>
           <Pill style={{ marginBottom: '20px' }} color="#3B1049" borderColor="rgba(59,16,73,0.3)">THE VALUES</Pill>
           <h2 style={{
-            fontFamily: "'Playfair Display', serif",
+            fontFamily: "var(--font-playfair-display), serif",
             fontStyle: 'italic',
             fontSize: '2.8rem',
             color: '#3B1049',
@@ -660,9 +659,9 @@ function SectionPrinciples() {
    SECTION 5 — FINAL CTA
 ═══════════════════════════════════════════ */
 export function SectionCTA() {
-  const [email, setEmail]       = useState('');
+  const [email, setEmail] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [inputError, setInputError]   = useState(false);
+  const [inputError, setInputError] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -721,7 +720,7 @@ export function SectionCTA() {
             marginBottom: '26px',
             fontFamily: '"DM Sans", sans-serif', width: 'fit-content',
           }}>
-            <span style={{ width:'7px', height:'7px', borderRadius:'50%', background:'#692475', display:'inline-block', flexShrink:0 }}/>
+            <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#692475', display: 'inline-block', flexShrink: 0 }} />
             Contact
           </div>
 
@@ -748,90 +747,90 @@ export function SectionCTA() {
           </p>
 
           {/* Email row */}
-          <div style={{ display:'flex', alignItems:'center', gap:'14px', marginBottom:'10px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '10px' }}>
             <div style={{
-              width:'48px', height:'48px', borderRadius:'50%',
+              width: '48px', height: '48px', borderRadius: '50%',
               background: 'rgba(105,36,117,0.09)',
-              display:'flex', alignItems:'center', justifyContent:'center',
-              color:'#692475', flexShrink:0,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              color: '#692475', flexShrink: 0,
             }}>
-              <Mail style={{ width:'20px', height:'20px' }}/>
+              <Mail style={{ width: '20px', height: '20px' }} />
             </div>
-            <div style={{ display:'flex', flexDirection:'column' }}>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
               <span style={{
-                fontSize:'11px', fontWeight:700, letterSpacing:'0.15em',
-                color:'#96699E', textTransform:'uppercase',
-                fontFamily:'"DM Sans", sans-serif', marginBottom:'3px',
+                fontSize: '11px', fontWeight: 700, letterSpacing: '0.15em',
+                color: '#96699E', textTransform: 'uppercase',
+                fontFamily: '"DM Sans", sans-serif', marginBottom: '3px',
               }}>EMAIL</span>
-              <a 
-                className="contact-email-link" 
-                href="mailto:admin@zirccle.com" 
+              <a
+                className="contact-email-link"
+                href="mailto:admin@zirccle.com"
                 style={{
-                  fontSize:'1.4rem', fontWeight:700, color:'#692475',
-                  textDecoration:'none', fontFamily:'"DM Sans", sans-serif',
-                  transition:'color 0.2s ease',
+                  fontSize: '1.4rem', fontWeight: 700, color: '#692475',
+                  textDecoration: 'none', fontFamily: '"DM Sans", sans-serif',
+                  transition: 'color 0.2s ease',
                 }}
-                onMouseEnter={e => (e.target as HTMLAnchorElement).style.color='#531c5d'}
-                onMouseLeave={e => (e.target as HTMLAnchorElement).style.color='#692475'}
+                onMouseEnter={e => (e.target as HTMLAnchorElement).style.color = '#531c5d'}
+                onMouseLeave={e => (e.target as HTMLAnchorElement).style.color = '#692475'}
               >admin@zirccle.com</a>
             </div>
           </div>
 
           {/* Divider */}
           <hr style={{
-            border:'none', borderTop:'1px solid rgba(167,139,250,0.25)',
-            margin:'26px 0', width:'100%', maxWidth:'440px',
-          }}/>
+            border: 'none', borderTop: '1px solid rgba(167,139,250,0.25)',
+            margin: '26px 0', width: '100%', maxWidth: '440px',
+          }} />
 
           {/* Get First Access */}
-          <div style={{ width:'100%', maxWidth:'440px', boxSizing:'border-box' }}>
+          <div style={{ width: '100%', maxWidth: '440px', boxSizing: 'border-box' }}>
             <div style={{
-              fontSize:'12px', fontWeight:700, letterSpacing:'0.16em',
-              color:'#96699E', textTransform:'uppercase',
-              fontFamily:'"DM Sans", sans-serif', marginBottom:'14px',
+              fontSize: '12px', fontWeight: 700, letterSpacing: '0.16em',
+              color: '#96699E', textTransform: 'uppercase',
+              fontFamily: '"DM Sans", sans-serif', marginBottom: '14px',
             }}>Get First Access</div>
 
             {isSubmitted ? (
-              <div style={{ padding:'12px 0' }}>
-                <div style={{ display:'flex', alignItems:'center', gap:'8px', marginBottom:'8px' }}>
-                  <CheckCircle style={{ color:'#22C55E', width:'20px', height:'20px' }}/>
-                  <span style={{ fontFamily:'"DM Sans", sans-serif', color:'#1A0C1E', fontSize:'1.1rem', fontWeight:700 }}>
+              <div style={{ padding: '12px 0' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                  <CheckCircle style={{ color: '#22C55E', width: '20px', height: '20px' }} />
+                  <span style={{ fontFamily: '"DM Sans", sans-serif', color: '#1A0C1E', fontSize: '1.1rem', fontWeight: 700 }}>
                     You're on the list!
                   </span>
                 </div>
-                <p style={{ fontFamily:'"DM Sans", sans-serif', color:'rgba(26,12,30,0.6)', margin:0, fontSize:'0.95rem', lineHeight:1.5 }}>
+                <p style={{ fontFamily: '"DM Sans", sans-serif', color: 'rgba(26,12,30,0.6)', margin: 0, fontSize: '0.95rem', lineHeight: 1.5 }}>
                   We'll email you as soon as early access spots open up.
                 </p>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} style={{ margin:0, padding:0 }}>
+              <form onSubmit={handleSubmit} style={{ margin: 0, padding: 0 }}>
                 {/* Input */}
-                <div style={{ position:'relative', width:'100%', marginBottom:'12px' }}>
+                <div style={{ position: 'relative', width: '100%', marginBottom: '12px' }}>
                   <Mail style={{
-                    position:'absolute', left:'15px', top:'50%',
-                    transform:'translateY(-50%)',
-                    color:'rgba(26,12,30,0.32)', width:'19px', height:'19px',
-                    pointerEvents:'none',
-                  }}/>
+                    position: 'absolute', left: '15px', top: '50%',
+                    transform: 'translateY(-50%)',
+                    color: 'rgba(26,12,30,0.32)', width: '19px', height: '19px',
+                    pointerEvents: 'none',
+                  }} />
                   <input
                     type="email"
                     placeholder="Enter your email address"
                     value={email}
                     onChange={e => setEmail(e.target.value)}
                     style={{
-                      width:'100%', height:'52px',
-                      padding:'0 14px 0 46px',
-                      borderRadius:'11px',
-                      border:'1px solid rgba(167,139,250,0.38)',
+                      width: '100%', height: '52px',
+                      padding: '0 14px 0 46px',
+                      borderRadius: '11px',
+                      border: '1px solid rgba(167,139,250,0.38)',
                       background: 'rgba(255,255,255,0.72)',
-                      color:'#1A0C1E', fontSize:'1rem', outline:'none',
-                      fontFamily:'"DM Sans", sans-serif',
-                      boxSizing:'border-box',
+                      color: '#1A0C1E', fontSize: '1rem', outline: 'none',
+                      fontFamily: '"DM Sans", sans-serif',
+                      boxSizing: 'border-box',
                       animation: inputError ? 'shake 0.3s ease-in-out' : 'none',
-                      transition:'border-color 0.2s ease',
+                      transition: 'border-color 0.2s ease',
                     }}
-                    onFocus={e => e.target.style.borderColor='#692475'}
-                    onBlur={e  => e.target.style.borderColor='rgba(167,139,250,0.38)'}
+                    onFocus={e => e.target.style.borderColor = '#692475'}
+                    onBlur={e => e.target.style.borderColor = 'rgba(167,139,250,0.38)'}
                   />
                 </div>
 
@@ -839,27 +838,27 @@ export function SectionCTA() {
                 <button
                   type="submit"
                   style={{
-                    width:'100%', height:'52px',
-                    background:'#692475', color:'#fff',
-                    border:'none', borderRadius:'11px',
-                    fontWeight:600, fontSize:'1rem', cursor:'pointer',
-                    fontFamily:'"DM Sans", sans-serif',
-                    transition:'background-color 0.2s ease',
-                    display:'flex', alignItems:'center', justifyContent:'center', gap:'8px',
+                    width: '100%', height: '52px',
+                    background: '#692475', color: '#fff',
+                    border: 'none', borderRadius: '11px',
+                    fontWeight: 600, fontSize: '1rem', cursor: 'pointer',
+                    fontFamily: '"DM Sans", sans-serif',
+                    transition: 'background-color 0.2s ease',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
                   }}
-                  onMouseEnter={e => e.currentTarget.style.backgroundColor='#531c5d'}
-                  onMouseLeave={e => e.currentTarget.style.backgroundColor='#692475'}
+                  onMouseEnter={e => e.currentTarget.style.backgroundColor = '#531c5d'}
+                  onMouseLeave={e => e.currentTarget.style.backgroundColor = '#692475'}
                 >
                   Get First Access
-                  <span style={{ fontSize:'1rem' }}>✦</span>
+                  <span style={{ fontSize: '1rem' }}>✦</span>
                 </button>
 
                 <div style={{
-                  display:'flex', alignItems:'center', gap:'7px',
-                  fontSize:'13px', color:'rgba(26,12,30,0.5)',
-                  fontFamily:'"DM Sans", sans-serif', marginTop:'13px',
+                  display: 'flex', alignItems: 'center', gap: '7px',
+                  fontSize: '13px', color: 'rgba(26,12,30,0.5)',
+                  fontFamily: '"DM Sans", sans-serif', marginTop: '13px',
                 }}>
-                  <CheckCircle style={{ color:'#692475', width:'14px', height:'14px', flexShrink:0 }}/>
+                  <CheckCircle style={{ color: '#692475', width: '14px', height: '14px', flexShrink: 0 }} />
                   <span>No spam. Just early access updates.</span>
                 </div>
               </form>
@@ -872,7 +871,7 @@ export function SectionCTA() {
           className="contact-img-col"
           style={{
             position: 'relative',
-            height: '100vh',
+            height: '100dvh',
             overflow: 'hidden',
             background: BG,
           }}
