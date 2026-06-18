@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FormEvent, ReactNode, useEffect, useRef, useState } from "react";
 import { IconBrandInstagram } from "@tabler/icons-react";
-import { Mail, CheckCircle } from "lucide-react";
+import { Mail, CheckCircle, Menu, X } from "lucide-react";
 
 
 const navLinks = [
@@ -107,11 +107,11 @@ export function SiteHeader() {
         <button
           aria-expanded={open}
           aria-label="Toggle navigation"
-          className="rounded-lg border border-outline-variant bg-white px-3 py-2 text-primary md:hidden"
+          className="rounded-lg border border-outline-variant bg-white px-3 py-2 text-primary md:hidden flex items-center justify-center cursor-pointer"
           onClick={() => setOpen((value) => !value)}
           type="button"
         >
-          <span className="material-symbols-outlined text-2xl">{open ? "close" : "menu"}</span>
+          {open ? <X className="h-6 w-6 pointer-events-none" /> : <Menu className="h-6 w-6 pointer-events-none" />}
         </button>
       </div>
 
@@ -289,7 +289,7 @@ export function SectionHeader({
   );
 }
 
-export function FinalCta() {
+export function ContactSection() {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [inputError, setInputError] = useState(false);
@@ -445,6 +445,27 @@ export function FinalCta() {
 
           {/* Gradient overlay to smoothly blend the image edge with the left column */}
           <div className="absolute inset-y-0 left-0 w-[18%] bg-gradient-to-r from-[#EDE8F8] to-transparent pointer-events-none z-10 hidden md:block" />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export function FinalCta() {
+  return (
+    <section className="bg-primary py-20 text-white md:py-24">
+      <div className="mx-auto grid max-w-container gap-10 px-5 md:px-10 lg:grid-cols-[1.05fr_0.95fr] lg:px-20">
+        <div className="space-y-6">
+          <Pill tone="bright">Be first in the circle</Pill>
+          <h2 className="text-balance text-4xl font-semibold leading-tight md:text-6xl">
+            Be the first to experience Zirccle
+          </h2>
+          <p className="max-w-xl text-lg leading-8 text-primary-fixed/85">
+            Join the first-access waitlist and help shape a wardrobe app that makes personal style feel calmer, smarter, and easier to use.
+          </p>
+        </div>
+        <div className="self-center rounded-2xl border border-white/15 bg-white/10 p-6 backdrop-blur-md">
+          <WaitlistForm placement="cta" />
         </div>
       </div>
     </section>
