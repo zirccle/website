@@ -15,11 +15,16 @@ export function ZirccleHero() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [inputError, setInputError] = useState(false);
 
-  const videoRef = useRef<HTMLVideoElement>(null);
+  // Two refs: one per video element. Only the correct one is visible/active.
+  const desktopVideoRef = useRef<HTMLVideoElement>(null);
+  const mobileVideoRef = useRef<HTMLVideoElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
-  // Track whether the user has interacted so we can unmute after autoplay policy allows it
+
+  // Whether the user has tapped/clicked to enable audio at least once.
   const userInteractedRef = useRef(false);
-  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
+  // Whether audio was unmuted before the hero scrolled off-screen.
+  // Used to restore audio state when the hero comes back into view.
+  const audioWasUnmutedRef = useRef(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,76 +37,109 @@ export function ZirccleHero() {
   };
 
   useEffect(() => {
-    const ctaTimer = setTimeout(() => {
-      setShowCTA(true);
-    }, 800);
-
+    const ctaTimer = setTimeout(() => setShowCTA(true), 800);
     return () => clearTimeout(ctaTimer);
   }, []);
 
   useEffect(() => {
-    const video = videoRef.current;
-    if (video) {
-      video.currentTime = 0;
-      video.play().catch(() => { });
+    // Helper: returns true when viewport is mobile-width.
+    const isMobileWidth = () => window.innerWidth < 768;
+
+    // Returns the video element that is currently active for the viewport.
+    const getActiveVideo = (): HTMLVideoElement | null =>
+      isMobileWidth() ? mobileVideoRef.current : desktopVideoRef.current;
+
+    // Start playback on the correct video immediately.
+    const activeVideo = getActiveVideo();
+    if (activeVideo) {
+      activeVideo.currentTime = 0;
+      activeVideo.play().catch(() => {});
     }
 
+    // Hide hint text after 3 s, remove from DOM after 4 s.
     const timer1 = setTimeout(() => setShowHint(false), 3000);
     const timer2 = setTimeout(() => setHintVisible(false), 4000);
 
-    // On first user interaction, unlock audio and unmute if the hero is currently visible
-    const unlockAudio = () => {
-      userInteractedRef.current = true;
-      const vid = videoRef.current;
-      if (vid) {
-        vid.muted = false;
-        vid.play().catch(() => { });
-      }
-      document.removeEventListener('click', unlockAudio);
-      document.removeEventListener('touchstart', unlockAudio);
-    };
-    document.addEventListener('click', unlockAudio, { once: true });
-    document.addEventListener('touchstart', unlockAudio, { once: true });
-
-    // Observe hero visibility: unmute at ≥60% visible, mute otherwise
+    // ── IntersectionObserver: mute when hero is < 50 % visible ──────────
     const observer = new IntersectionObserver(
       ([entry]) => {
-        const vid = videoRef.current;
+        const vid = getActiveVideo();
         if (!vid) return;
 
-        if (entry.intersectionRatio >= 0.6) {
-          // Hero is the active section — unmute (only works after user interaction)
-          if (userInteractedRef.current) {
+        if (entry.intersectionRatio >= 0.5) {
+          // Hero is mostly visible — restore audio if user has interacted
+          // and audio was previously unmuted.
+          if (userInteractedRef.current && audioWasUnmutedRef.current) {
             vid.muted = false;
           }
         } else {
-          // Hero scrolled away — mute immediately, video keeps looping
+          // Hero is mostly off-screen — mute and remember previous state.
+          if (!vid.muted) {
+            audioWasUnmutedRef.current = true;
+          }
           vid.muted = true;
         }
       },
-      {
-        threshold: [0, 0.3, 0.6, 0.8, 1.0]
-      }
+      { threshold: [0, 0.1, 0.25, 0.5, 0.75, 1.0] }
     );
 
-    if (heroRef.current) {
-      observer.observe(heroRef.current);
-    }
+    if (heroRef.current) observer.observe(heroRef.current);
+
+    // ── Resize handler: swap active video at the 768 px breakpoint ───────
+    let wasMobile = isMobileWidth();
+
+    const handleResize = () => {
+      const nowMobile = isMobileWidth();
+      if (nowMobile === wasMobile) return; // breakpoint hasn't actually crossed
+      wasMobile = nowMobile;
+
+      const incoming = nowMobile ? mobileVideoRef.current : desktopVideoRef.current;
+      const outgoing = nowMobile ? desktopVideoRef.current : mobileVideoRef.current;
+
+      if (outgoing && !outgoing.paused) outgoing.pause();
+
+      if (incoming) {
+        incoming.currentTime = 0;
+        incoming.muted = !userInteractedRef.current || !audioWasUnmutedRef.current;
+        incoming.play().catch(() => {});
+      }
+    };
+
+    window.addEventListener('resize', handleResize, { passive: true });
 
     return () => {
-      document.removeEventListener('click', unlockAudio);
-      document.removeEventListener('touchstart', unlockAudio);
       clearTimeout(timer1);
       clearTimeout(timer2);
       observer.disconnect();
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
+
+  // Called on first user interaction anywhere inside the hero.
+  // Unmutes the active video without touching playback.
+  const enableAudio = () => {
+    if (!userInteractedRef.current) {
+      userInteractedRef.current = true;
+      audioWasUnmutedRef.current = true;
+      const vid = window.innerWidth < 768 ? mobileVideoRef.current : desktopVideoRef.current;
+      if (vid) vid.muted = false;
+    }
+  };
+
+  // Intercepts click/touch directly on a video element.
+  // Prevents the browser's native tap-to-pause toggle while still enabling audio.
+  const handleVideoInteraction = (e: React.MouseEvent | React.TouchEvent) => {
+    e.preventDefault();       // block the native play/pause toggle
+    e.stopPropagation();      // don't let it bubble further
+    enableAudio();            // enable audio on first touch
+  };
 
   return (
     <section
       id="hero"
       className="hero-container"
       ref={heroRef}
+      onClick={enableAudio}
       style={{
         height: '100vh',
         overflow: 'hidden',
@@ -121,31 +159,125 @@ export function ZirccleHero() {
             width: 100%;
             align-items: center;
           }
+          .hero-cta-success {
+            background: rgba(105, 36, 117, 0.25);
+            backdrop-filter: blur(12px);
+          }
+          .hero-cta-input {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+          }
           @keyframes shake {
             0%, 100% { transform: translateX(0); }
             25% { transform: translateX(-5px); }
             75% { transform: translateX(5px); }
           }
+
+          /*
+           * Video visibility rules.
+           * display:none on a <video preload="none"> prevents the browser
+           * from fetching the file entirely — desktop users never download
+           * the mobile video and vice-versa.
+           */
+          .hero-video-desktop {
+            display: block;
+          }
+          .hero-video-mobile {
+            display: none;
+          }
+
+          @media (max-width: 767px) {
+            .hero-video-desktop {
+              display: none;
+            }
+            .hero-video-mobile {
+              display: block;
+            }
+            .hero-cta-success {
+              background: rgba(105,36,117,0.9);
+              backdrop-filter: none;
+            }
+            .hero-cta-input {
+              background: rgba(60,20,80,0.75);
+              backdrop-filter: none;
+            }
+            .hero-cta-form {
+              flex-direction: column;
+            }
+            .hero-cta-form .hero-cta-input-wrapper {
+              min-width: 0 !important;
+              width: 100%;
+            }
+            .hero-cta-form .hero-cta-btn {
+              width: 100%;
+            }
+            .hero-cta-overlay {
+              bottom: calc(36px + env(safe-area-inset-bottom)) !important;
+            }
+            .hero-hint {
+              bottom: calc(24px + env(safe-area-inset-bottom)) !important;
+            }
+          }
         `}
       </style>
 
+      {/*
+        Desktop & Tablet video (>=768px).
+        Hidden via CSS on mobile, so the browser skips downloading it on
+        small screens. preload="none" is critical for performance: it stops
+        the browser from fetching either video before play() is called.
+      */}
       <video
         id="heroVideo"
-        ref={videoRef}
-        src="/Zirccle_video.mp4"
+        ref={desktopVideoRef}
         autoPlay
         loop
         muted
         playsInline
-        preload="metadata"
+        preload="none"
+        className="hero-video-desktop"
+        onClick={handleVideoInteraction}
+        onTouchEnd={handleVideoInteraction}
         style={{
           position: 'absolute',
           inset: 0,
           width: '100%',
           height: '100%',
-          objectFit: 'cover'
+          objectFit: 'cover',
         }}
-      />
+      >
+        <source src="/Zirccle_video.mp4" type="video/mp4" />
+      </video>
+
+      {/*
+        Mobile video (<768px).
+        Hidden via CSS on desktop/tablet.
+        Portrait-optimised: objectFit cover + objectPosition center keeps the
+        important content visible with no black bars or stretching.
+        preload="none" prevents desktop users from downloading this file.
+      */}
+      <video
+        id="heroVideoMobile"
+        ref={mobileVideoRef}
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="none"
+        className="hero-video-mobile"
+        onClick={handleVideoInteraction}
+        onTouchEnd={handleVideoInteraction}
+        style={{
+          position: 'absolute',
+          inset: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          objectPosition: 'center center',
+        }}
+      >
+        <source src="/Zirccle_Mobile_View.mp4" type="video/mp4" />
+      </video>
 
       <div style={{
         position: 'absolute',
@@ -180,7 +312,7 @@ export function ZirccleHero() {
             pointerEvents: 'none'
           }}
         >
-          🔊 Tap anywhere for sound
+          Tap anywhere for sound
         </div>
       )}
 
@@ -199,7 +331,7 @@ export function ZirccleHero() {
       >
         <div className="hero-cta-inner" style={{ maxWidth: '600px', margin: '0 auto', padding: '0 32px', display: 'flex', justifyContent: 'center', width: '100%', boxSizing: 'border-box' }}>
           {isSubmitted ? (
-            <div style={{
+            <div className="hero-cta-success" style={{
               display: 'flex',
               alignItems: 'center',
               gap: '8px',
@@ -207,14 +339,12 @@ export function ZirccleHero() {
               fontFamily: '"DM Sans", sans-serif',
               fontSize: '1.2rem',
               fontWeight: 600,
-              background: isMobile ? 'rgba(105,36,117,0.9)' : 'rgba(105, 36, 117, 0.25)',
-              backdropFilter: isMobile ? 'none' : 'blur(12px)',
               border: '1px solid rgba(167, 139, 250, 0.35)',
               padding: '12px 24px',
               borderRadius: '16px'
             }}>
               <CheckCircle style={{ color: '#22C55E', width: '20px', height: '20px' }} />
-              <span>💜 You're on the list!</span>
+              <span>You&apos;re on the list!</span>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="hero-cta-form" style={{ margin: 0, padding: 0 }}>
@@ -234,14 +364,13 @@ export function ZirccleHero() {
                   placeholder="Enter your email address"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  className="hero-cta-input"
                   style={{
                     width: '100%',
                     height: '52px',
                     padding: '0 16px 0 48px',
                     borderRadius: '12px',
                     border: '1px solid rgba(255, 255, 255, 0.25)',
-                    background: isMobile ? 'rgba(60,20,80,0.75)' : 'rgba(255, 255, 255, 0.08)',
-                    backdropFilter: isMobile ? 'none' : 'blur(20px)',
                     color: '#ffffff',
                     fontSize: '0.95rem',
                     outline: 'none',
@@ -276,7 +405,7 @@ export function ZirccleHero() {
                 onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#531c5d')}
                 onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#692475')}
               >
-                ✦ Get First Access
+                Get First Access
               </button>
             </form>
           )}
@@ -290,9 +419,9 @@ export function ZirccleHero() {
    Zirccle Stats Bar Component
 ───────────────────────────────────────────── */
 const STATS = [
-  { label: 'Less', sub: 'decision fatigue', image: '/images/1.png', icon: '↓', color: '#9B4DB8' },
-  { label: 'More', sub: 'use from your closet', image: '/images/2.png', icon: '↑', color: '#6B1E7A' },
-  { label: 'Better', sub: 'daily outfit confidence', image: '/images/3.png', icon: '✦', color: '#CFA8E8' },
+  { label: 'Less', sub: 'decision fatigue', image: '/images/1.png', icon: '\u2193', color: '#9B4DB8' },
+  { label: 'More', sub: 'use from your closet', image: '/images/2.png', icon: '\u2191', color: '#6B1E7A' },
+  { label: 'Better', sub: 'daily outfit confidence', image: '/images/3.png', icon: '\u2726', color: '#CFA8E8' },
 ];
 
 export function ZirccleStatsBar() {
@@ -314,6 +443,7 @@ export function ZirccleStatsBar() {
 
   return (
     <section
+      id="features"
       ref={sectionRef}
       className="stats-bar-section"
       style={{
@@ -321,6 +451,33 @@ export function ZirccleStatsBar() {
         padding: '80px 40px', position: 'relative', overflow: 'hidden',
       }}
     >
+      <style>
+        {`
+          .stats-bar-grid {
+            grid-template-columns: repeat(3, 1fr) !important;
+          }
+          .stats-bar-section {
+            padding: 80px 40px !important;
+          }
+          @media (max-width: 768px) {
+            .stats-bar-grid {
+              grid-template-columns: 1fr !important;
+              max-width: 400px !important;
+            }
+            .stats-bar-section {
+              padding: 60px 20px !important;
+            }
+            .stats-bar-card {
+              height: 280px !important;
+            }
+          }
+          @media (min-width: 769px) and (max-width: 1024px) {
+            .stats-bar-grid {
+              grid-template-columns: repeat(2, 1fr) !important;
+            }
+          }
+        `}
+      </style>
       <div style={{
         position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)',
         width: '600px', height: '300px', borderRadius: '50%',
@@ -403,7 +560,7 @@ const FAQS = [
   { q: 'When will Zirccle launch?', a: 'First-access members will receive private beta invites before the public release.' },
   { q: 'Do I need to upload my whole closet?', a: 'No. Start with a few favorites and expand your digital wardrobe at your own pace.' },
   { q: 'Is Zirccle only for fashion experts?', a: 'No. It is designed for anyone who wants less stress and more confidence in what they already own.' },
-  { q: 'Does Zirccle work with all clothing types?', a: 'Yes — tops, bottoms, shoes, accessories, outerwear. If you wear it, Zirccle can catalog it.' },
+  { q: 'Does Zirccle work with all clothing types?', a: 'Yes \u2014 tops, bottoms, shoes, accessories, outerwear. If you wear it, Zirccle can catalog it.' },
 ];
 
 export function ZirccleFAQ() {

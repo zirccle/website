@@ -9,7 +9,7 @@ import { Mail, CheckCircle, Menu, X } from "lucide-react";
 
 
 const navLinks = [
-  { href: "/features", label: "Features" },
+  { href: "/#features", label: "Features" },
   { href: "/how-it-works", label: "How it works" },
   { href: "/about", label: "About" },
 ];
