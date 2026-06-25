@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { featureCards, images, journeySteps } from "./screen-data";
 import { FinalCta, ImageFrame, PageShell, Pill, SectionHeader, WaitlistForm } from "./site-components";
+import { ZirccleHero, ZirccleStatsBar, ZirccleFAQ } from "./zirccle-components";
 
 export const metadata: Metadata = {
   title: "Zirccle",
@@ -10,37 +11,7 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <PageShell>
-      <section className="pt-28 md:pt-32">
-        <div className="mx-auto grid max-w-container items-center gap-12 px-5 py-16 md:px-10 lg:grid-cols-[0.92fr_1.08fr] lg:px-20 lg:py-24">
-          <div className="space-y-8">
-            <Pill tone="bright">The journey</Pill>
-            <h1 className="text-balance text-5xl font-semibold leading-[1.08] tracking-tight text-primary md:text-7xl">
-              Your style journey, simplified.
-            </h1>
-            <p className="max-w-2xl text-lg leading-8 text-muted-strong">
-              Zirccle transforms your wardrobe from a collection of clothes into a dynamic source of daily inspiration using advanced AI.
-            </p>
-            <WaitlistForm />
-          </div>
-
-          <div className="relative min-h-[clamp(320px,45vh,450px)]">
-            <div className="absolute inset-[0_18%_20%_0] overflow-hidden rounded-2xl">
-              <ImageFrame
-                className="h-full w-full rounded-2xl"
-                priority
-                sizes="(min-width: 1280px) 44vw, (min-width: 1024px) 48vw, calc(100vw - 2.5rem)"
-                src={images.journeyHero}
-                alt="Curated wardrobe flatlay"
-              />
-            </div>
-            <div className="absolute inset-[40%_0_0_42%] rounded-2xl border border-white/40 bg-primary-container/10 p-6 shadow-strong backdrop-blur-md">
-              <div className="mb-16 h-8 w-56 max-w-full rounded-full bg-primary/20" />
-              <h2 className="text-2xl font-medium text-primary">AI-powered curation</h2>
-              <p className="mt-2 text-base text-muted-strong">Matches your mood and schedule</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <ZirccleHero />
 
       <section className="py-20">
         <div className="mx-auto max-w-container px-5 md:px-10 lg:px-20">
@@ -84,6 +55,8 @@ export default function Home() {
         </div>
       </section>
 
+      <ZirccleStatsBar />
+      <ZirccleFAQ />
       <FinalCta />
     </PageShell>
   );
