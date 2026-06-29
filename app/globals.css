@@ -135,6 +135,14 @@
   html {
     scroll-behavior: smooth;
     background: #fcf9f8;
+    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none;  /* IE and Edge */
+  }
+
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar {
+    display: none;
   }
 
   ::selection {
@@ -145,6 +153,8 @@
   body {
     @apply bg-background text-on-surface antialiased overflow-x-hidden font-manrope;
     min-height: 100dvh;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     background-image:
@@ -236,4 +246,17 @@ button,
 input,
 textarea {
   -webkit-tap-highlight-color: transparent;
+}
+
+/* Hide scrollbar globally for all elements (Chrome, Safari, Opera) */
+*::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* Hide scrollbar globally for all elements (Firefox, IE, Edge) */
+html, body, * {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
 }

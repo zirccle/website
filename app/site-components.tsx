@@ -25,6 +25,8 @@ function BrandLogo() {
         style={{ width: "auto", height: "3rem" }}
         className="drop-shadow-[0_1px_1px_rgba(0,0,0,0.08)] sm:h-14"
         priority
+        loading="eager"
+        fetchPriority="high"
       />
     </div>
   );

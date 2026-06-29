@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from 'react';
-import { Mail, CheckCircle } from 'lucide-react';
+import { Mail, CheckCircle, Volume2, VolumeX } from 'lucide-react';
 
 /* ─────────────────────────────────────────────
    Zirccle Hero Video Component
@@ -14,6 +14,7 @@ export function ZirccleHero() {
   const [email, setEmail] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [inputError, setInputError] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
 
   // Two refs: one per video element. Only the correct one is visible/active.
   const desktopVideoRef = useRef<HTMLVideoElement>(null);
@@ -71,6 +72,7 @@ export function ZirccleHero() {
           // and audio was previously unmuted.
           if (userInteractedRef.current && audioWasUnmutedRef.current) {
             vid.muted = false;
+            setIsMuted(false);
           }
         } else {
           // Hero is mostly off-screen — mute and remember previous state.
@@ -78,6 +80,7 @@ export function ZirccleHero() {
             audioWasUnmutedRef.current = true;
           }
           vid.muted = true;
+          setIsMuted(true);
         }
       },
       { threshold: [0, 0.1, 0.25, 0.5, 0.75, 1.0] }
@@ -100,7 +103,9 @@ export function ZirccleHero() {
 
       if (incoming) {
         incoming.currentTime = 0;
-        incoming.muted = !userInteractedRef.current || !audioWasUnmutedRef.current;
+        const targetMuted = !userInteractedRef.current || !audioWasUnmutedRef.current;
+        incoming.muted = targetMuted;
+        setIsMuted(targetMuted);
         incoming.play().catch(() => {});
       }
     };
@@ -115,23 +120,33 @@ export function ZirccleHero() {
     };
   }, []);
 
-  // Called on first user interaction anywhere inside the hero.
-  // Unmutes the active video without touching playback.
-  const enableAudio = () => {
-    if (!userInteractedRef.current) {
-      userInteractedRef.current = true;
-      audioWasUnmutedRef.current = true;
-      const vid = window.innerWidth < 768 ? mobileVideoRef.current : desktopVideoRef.current;
-      if (vid) vid.muted = false;
+  // Called on user interaction anywhere inside the hero.
+  // Toggles muted status of the active video.
+  const toggleAudio = (e?: React.MouseEvent | React.TouchEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    userInteractedRef.current = true;
+    const vid = window.innerWidth < 768 ? mobileVideoRef.current : desktopVideoRef.current;
+    if (vid) {
+      const newMuted = !vid.muted;
+      vid.muted = newMuted;
+      setIsMuted(newMuted);
+      audioWasUnmutedRef.current = !newMuted;
+      if (!newMuted) {
+        setShowHint(false);
+        setHintVisible(false);
+      }
     }
   };
 
   // Intercepts click/touch directly on a video element.
-  // Prevents the browser's native tap-to-pause toggle while still enabling audio.
+  // Prevents the browser's native tap-to-pause toggle while still toggling audio.
   const handleVideoInteraction = (e: React.MouseEvent | React.TouchEvent) => {
     e.preventDefault();       // block the native play/pause toggle
     e.stopPropagation();      // don't let it bubble further
-    enableAudio();            // enable audio on first touch
+    toggleAudio();            // toggle audio
   };
 
   return (
@@ -139,7 +154,7 @@ export function ZirccleHero() {
       id="hero"
       className="hero-container"
       ref={heroRef}
-      onClick={enableAudio}
+      onClick={toggleAudio}
       style={{
         height: '100vh',
         overflow: 'hidden',
@@ -347,7 +362,7 @@ export function ZirccleHero() {
               <span>You&apos;re on the list!</span>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="hero-cta-form" style={{ margin: 0, padding: 0 }}>
+            <form onSubmit={handleSubmit} onClick={(e) => e.stopPropagation()} className="hero-cta-form" style={{ margin: 0, padding: 0 }}>
               <div className="hero-cta-input-wrapper" style={{ position: 'relative', flex: 1, minWidth: '240px' }}>
                 <Mail style={{
                   position: 'absolute',
@@ -411,6 +426,46 @@ export function ZirccleHero() {
           )}
         </div>
       </div>
+
+      {/* Floating speaker toggle button */}
+      <button
+        onClick={toggleAudio}
+        aria-label={isMuted ? "Unmute video" : "Mute video"}
+        style={{
+          position: 'absolute',
+          top: '100px',
+          right: '24px',
+          zIndex: 1001,
+          cursor: 'pointer',
+          background: 'rgba(255, 255, 255, 0.08)',
+          backdropFilter: 'blur(16px)',
+          border: '1px solid rgba(255, 255, 255, 0.2)',
+          borderRadius: '50%',
+          width: '46px',
+          height: '46px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          color: '#ffffff',
+          boxShadow: '0 4px 24px rgba(0, 0, 0, 0.25)',
+          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+          outline: 'none',
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.background = 'rgba(255, 255, 255, 0.16)';
+          e.currentTarget.style.transform = 'scale(1.08)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)';
+          e.currentTarget.style.transform = 'scale(1)';
+        }}
+      >
+        {isMuted ? (
+          <VolumeX style={{ width: '18px', height: '18px', pointerEvents: 'none' }} />
+        ) : (
+          <Volume2 style={{ width: '18px', height: '18px', pointerEvents: 'none' }} />
+        )}
+      </button>
     </section>
   );
 }
@@ -627,7 +682,9 @@ export function ZirccleFAQ() {
                   ? 'rgba(124,58,237,0.08)'
                   : 'rgba(124,58,237,0.04)',
                 backdropFilter: 'blur(16px) saturate(140%)',
-                border: `1px solid ${isOpen ? 'rgba(124,58,237,0.4)' : 'rgba(124,58,237,0.15)'}`,
+                borderTop: `1px solid ${isOpen ? 'rgba(124,58,237,0.4)' : 'rgba(124,58,237,0.15)'}`,
+                borderRight: `1px solid ${isOpen ? 'rgba(124,58,237,0.4)' : 'rgba(124,58,237,0.15)'}`,
+                borderBottom: `1px solid ${isOpen ? 'rgba(124,58,237,0.4)' : 'rgba(124,58,237,0.15)'}`,
                 borderLeft: '3px solid #7C3AED',
                 borderRadius: '18px',
                 marginBottom: '14px',
