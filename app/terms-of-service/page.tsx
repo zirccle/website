@@ -63,6 +63,10 @@ const terms: [string, string | string[]][] = [
     "The Service is provided \"as is\" and \"as available\", without warranties of any kind, to the extent the law allows. We do not promise that it will be uninterrupted or error-free, or that you will like every suggestion. To the extent the law allows, Zirccle is not liable for indirect or consequential losses, for content posted by other users, or for loss of content. Nothing in these terms limits rights you have under consumer law that cannot be limited.",
   ],
   [
+    "Governing law and disputes",
+    "These terms are governed by the laws of India. Please contact us first at admin@zirccle.com so we can try to resolve any dispute directly. If that fails, the courts in Maharashtra, India have exclusive jurisdiction, except where the consumer protection law that applies to you gives you the right to bring a claim elsewhere.",
+  ],
+  [
     "Changes to these terms",
     "We may update these terms. We will post the new version here and change the \"Last updated\" date. If you keep using the Service after a change, you accept the new terms.",
   ],
