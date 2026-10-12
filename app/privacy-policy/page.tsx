@@ -4,41 +4,68 @@ import { PageShell, Pill } from "../site-components";
 
 export const metadata: Metadata = {
   title: "Privacy Policy | Zirccle",
-  description: "Read how Zirccle handles your data, emails, and account information.",
+  description: "What the Zirccle app and website collect, who it is shared with, and how to delete it.",
 };
 
-const sections = [
+// A section is a paragraph, or a list of points when the text is an array.
+const sections: [string, string | string[]][] = [
   [
     "Introduction",
-    "This Privacy Policy describes how Zirccle (\"we\", \"us\", \"our\") collects, uses, shares, and protects information when you use our website or the Zirccle Fashion App (the \"App\"). By using the website or the App you agree to the collection and use of information in accordance with this policy.",
+    "This Privacy Policy describes how Zirccle (\"we\", \"us\", \"our\") collects, uses, shares, and protects information when you use our website or the Zirccle app (the \"App\"). By using the website or the App you agree to the collection and use of information as described here.",
   ],
   [
     "Information We Collect",
-    "We may collect: account information (name, email, profile data), content and media you provide (for example photos you upload or save), device & usage data (device model, OS version, unique device identifiers, app and browser version, feature interactions, crash reports, and performance metrics), and aggregated or pseudonymized analytics to understand usage patterns.",
+    [
+      "Account details: your name and email address. If you sign in with Google, we receive your name and email from Google. Passwords are handled by our sign-in provider and are never stored on Zirccle's servers.",
+      "Photos: pictures of clothing you add to your wardrobe and pictures you post. The App reads a photo only when you pick it or take it; it does not scan your photo library.",
+      "Content you create: wardrobe items and their details, outfits, posts, captions, comments, ratings, saved posts, follows, your style profile, and messages you send to other users or to the AI stylist.",
+      "Approximate location: only if you allow it, and only to fetch the local weather for outfit suggestions. The coordinates are used for the weather lookup and are not tied to your profile or shown to other users.",
+      "Push notification token: if you turn notifications on, a token that lets us send them to your device.",
+      "Diagnostics: crash and error reports, with your name and email left out, plus the device model and OS version needed to fix the problem.",
+      "Website: the email address you give us if you join the waitlist or contact us.",
+    ],
   ],
   [
     "How We Use Information",
-    "We use information to provide and operate the website and App (including account management and storage of your photos/media), to improve and personalize the service, to develop new features, to monitor and fix bugs and security issues, and to communicate with you about your account and updates where you have opted in.",
+    "We use this information to run the App: to sign you in, store and show your wardrobe, describe a clothing photo with AI, suggest outfits, show your posts to other users, deliver your messages, send notifications you have turned on, and find and fix errors. We do not use your information for advertising, and we do not build advertising profiles.",
+  ],
+  [
+    "AI Features",
+    "When you add a clothing photo, the photo is sent to an AI model provider so it can describe the item (type, colour, fit). When you chat with the AI stylist, your messages are sent to the same provider to produce a reply. These are processed to answer your request and are not used by us to train models.",
   ],
   [
     "Sharing and Disclosure",
-    "We share data with trusted third-party service providers who perform services on our behalf (for example cloud storage, analytics, crash reporting, and payment processors). These providers are contractually limited to using data only to provide those services. We may disclose information to comply with applicable law or respond to lawful requests by public authorities. We may also share aggregated or de-identified information that cannot reasonably be used to identify you. We do not sell your personal information.",
+    [
+      "We do not sell your personal information, and we do not share it with advertisers.",
+      "Other users can see what you choose to publish: your name, profile, posts, comments and ratings. Messages are visible to the people in the conversation. Your wardrobe is private unless you post from it.",
+      "Service providers that process data for us, only to provide their service: Amazon Web Services (hosting, database and photo storage), Clerk (sign-in and account security), Google (only if you use Google sign-in), Groq (AI photo descriptions and stylist replies), Open-Meteo (weather for the coordinates you allow), Expo (delivery of push notifications), and Sentry (crash and error reports).",
+      "We may disclose information when the law requires it.",
+    ],
   ],
   [
-    "Data Retention",
-    "We retain personal data only as long as necessary to provide the website and App, to comply with legal obligations, and to resolve disputes. If you request deletion of your account and data, we will delete or anonymize personal data within a reasonable timeframe subject to legal and operational constraints.",
+    "Data Safety Summary",
+    [
+      "Collected: name, email address, photos, messages and other content you create, approximate location (optional), and crash diagnostics.",
+      "Shared with third parties for advertising or sale: none.",
+      "All data is encrypted in transit (HTTPS). Photos and the database are encrypted at rest.",
+      "You can delete your account and its data at any time, in the App or by request. See the account deletion page linked below.",
+    ],
+  ],
+  [
+    "Data Retention and Deletion",
+    "We keep your data for as long as your account exists. When you delete your account, your profile, photos, wardrobe, posts, comments, ratings, messages and sign-in identity are deleted straight away. Server logs are kept for 7 days and error reports for up to 90 days; these do not contain your name or email.",
   ],
   [
     "Security",
-    "We use reasonable administrative, technical, and physical measures to protect personal data. No system can be guaranteed 100% secure; if a security incident occurs we will take appropriate measures and notify affected users when required by law.",
+    "We use reasonable administrative, technical, and physical measures to protect personal data, including encrypted connections, encrypted storage, and restricted access to our systems. No system can be guaranteed 100% secure; if a security incident occurs we will take appropriate measures and notify affected users when required by law.",
   ],
   [
     "Children",
-    "The website and App are not directed to children under the age of 13. We do not knowingly collect personal information from children under 13. If you are a parent or guardian and believe your child under 13 has provided us with personal information, contact us and we will take steps to delete the information.",
+    "The website and App are not directed to children under the age of 13. We do not knowingly collect personal information from children under 13. If you are a parent or guardian and believe your child under 13 has provided us with personal information, contact us and we will delete it.",
   ],
   [
     "Your Rights and Choices",
-    "You may review or update certain account information by signing into your account and editing your profile. Where applicable you may opt out of certain communications; we may still send transactional messages related to your account. You can request deletion of your account and personal data by contacting us; some data may remain in backups or logs for a limited period.",
+    "You can view and edit your profile in the App, make your profile private, turn notifications off, and refuse or withdraw location access in your device settings. You can delete your account and its data in the App under Settings, Privacy & Security, Delete account, or by emailing us. You may also ask us for a copy of your data or to correct it.",
   ],
   [
     "Third-Party Links and Services",
@@ -46,7 +73,7 @@ const sections = [
   ],
   [
     "Changes to This Policy",
-    "We may update this Privacy Policy from time to time. We will post the updated policy on the website (and in the App where applicable) and update the \"Last updated\" date above.",
+    "We may update this Privacy Policy from time to time. We will post the updated policy on the website and update the \"Last updated\" date above.",
   ],
   [
     "Contact Us",
@@ -62,19 +89,27 @@ export default function PrivacyPolicyPage() {
           <div className="max-w-3xl">
             <Pill>Legal</Pill>
             <h1 className="mt-6 text-5xl font-semibold tracking-tight text-primary md:text-7xl">Privacy Policy</h1>
-            <p className="mt-6 text-lg leading-8 text-muted-strong">We keep this policy clear so you can understand how Zirccle handles website and waitlist information.</p>
+            <p className="mt-6 text-lg leading-8 text-muted-strong">We keep this policy clear so you can understand what Zirccle collects in the app and on the website, and what happens to it.</p>
           </div>
 
           <article className="mt-10 rounded-3xl bg-white p-6 shadow-soft md:p-10">
             <div className="grid gap-4 sm:grid-cols-2">
-              <Meta label="Last updated" value="2026-06-05" />
+              <Meta label="Last updated" value="2026-10-11" />
               <Meta label="Scope" value="Website and App" />
             </div>
             <div className="mt-10 space-y-8">
               {sections.map(([title, text]) => (
                 <section className="scroll-mt-28 border-t border-outline-variant pt-8" id={title.toLowerCase().replaceAll(" ", "-")} key={title}>
                   <h2 className="text-2xl font-semibold text-primary">{title}</h2>
-                  <p className="mt-3 text-base leading-7 text-muted-strong">{text}</p>
+                  {Array.isArray(text) ? (
+                    <ul className="mt-3 list-disc space-y-2 pl-6 text-base leading-7 text-muted-strong">
+                      {text.map((point) => (
+                        <li key={point}>{point}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="mt-3 text-base leading-7 text-muted-strong">{text}</p>
+                  )}
                 </section>
               ))}
             </div>
